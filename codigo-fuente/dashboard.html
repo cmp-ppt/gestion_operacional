@@ -1005,7 +1005,7 @@ function PolinModal({ proc, tag, beltNombre, selectable, polAdds, onSave, onClos
 }
 
 /* ── Modal: importar Excel de polines ─────────────────── */
-function ImportModal({ existing, onImport, onClose, busy }){
+function ImportModal({ existing, polAdds, onImport, onClose, busy }){
   const [parsed,setParsed]=useState(null);   // {valid,warns,skipped}
   const [error,setError]=useState('');
   const [fileName,setFileName]=useState('');
@@ -1051,10 +1051,17 @@ function ImportModal({ existing, onImport, onClose, busy }){
   // breakdown por proceso (solo nuevos reales)
   const byProc={}; toImport.filter(h=>!h._supersede).forEach(h=>byProc[h.proc]=(byProc[h.proc]||0)+1);
   const fechas=parsed?[...new Set(parsed.valid.map(h=>h.fecha).filter(Boolean))]:[];
+  // Reconciliación (snapshot): la inspección importada = estado actual. Cierra (No Activo)
+  // los hallazgos activos de la BD que ya no vienen activos, acotado a los equipos del archivo.
+  const fileTags = parsed ? new Set(parsed.valid.map(h=>h.proc+'|'+h.tag)) : new Set();
+  const fileActiveKeys = parsed ? new Set(parsed.valid.filter(h=>(h.estCond||'Activo')==='Activo').map(h=>polKey(h))) : new Set();
+  const updIds = new Set(updates.map(u=>u.id));
+  const reconcileCloses = parsed ? (polAdds||[]).filter(h=>(h.estCond||'Activo')==='Activo' && fileTags.has(h.proc+'|'+h.tag) && !fileActiveKeys.has(polKey(h)) && !updIds.has(h.id)).map(h=>({id:h.id, estCond:'No Activo'})) : [];
+  const cierresRecon = reconcileCloses.length;
 
   function confirmar(){
     const summary=Object.keys(byProc).map(p=>`${PROC_META[p]?.label||p}: ${byProc[p]}`).join(' · ')||'sin nuevos';
-    onImport(toImport, { fileName, summary, fechas, nuevosReales, estadoChanges }, updates);
+    onImport(toImport, { fileName, summary, fechas, nuevosReales, estadoChanges: estadoChanges+cierresRecon }, [...updates, ...reconcileCloses]);
   }
 
   return (
@@ -1084,14 +1091,16 @@ function ImportModal({ existing, onImport, onClose, busy }){
           {parsed && (
             <>
               {/* Resumen */}
-              <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:10}}>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(6,1fr)',gap:10}}>
                 <div className="kpi" style={{borderTopColor:'var(--cmp-blue-500)'}}><div className="kpi-lbl">Filas válidas</div><div className="kpi-val">{parsed.valid.length}</div></div>
                 <div className="kpi" style={{borderTopColor:'var(--status-running)'}}><div className="kpi-lbl">Nuevos a importar</div><div className="kpi-val" style={{color:'var(--status-running-light)'}}>{nuevosReales}</div></div>
                 <div className="kpi" style={{borderTopColor: estadoChanges>0?'var(--cmp-blue-400)':'var(--op-border-subtle)'}}><div className="kpi-lbl">Cambios de estado</div><div className="kpi-val" style={{color:estadoChanges>0?'var(--cmp-blue-300)':'var(--op-text-1)'}}>{estadoChanges}</div></div>
+                <div className="kpi" style={{borderTopColor: cierresRecon>0?'var(--alarm-critical)':'var(--op-border-subtle)'}}><div className="kpi-lbl">A cerrar (ya no activos)</div><div className="kpi-val" style={{color:cierresRecon>0?'var(--alarm-critical-light)':'var(--op-text-1)'}}>{cierresRecon}</div></div>
                 <div className="kpi" style={{borderTopColor: dupCount>0?'var(--alarm-warning)':'var(--op-border-subtle)'}}><div className="kpi-lbl">Duplicados</div><div className="kpi-val" style={{color:dupCount>0?'var(--alarm-warning-light)':'var(--op-text-1)'}}>{dupCount}</div></div>
                 <div className="kpi"><div className="kpi-lbl">Omitidas</div><div className="kpi-val">{parsed.skipped}</div></div>
               </div>
               {estadoChanges>0 && <div style={{fontSize:'0.786rem',color:'var(--cmp-blue-300)',background:'rgba(43,111,219,.10)',border:'1px solid rgba(43,111,219,.3)',borderRadius:'var(--radius-1)',padding:'7px 11px'}}>↻ {estadoChanges} hallazgo{estadoChanges!==1?'s':''} existente{estadoChanges!==1?'s':''} cambiará{estadoChanges!==1?'n':''} de estado (ej. Activo → No Activo) y dejará{estadoChanges!==1?'n':''} de aparecer en Críticos Polines.</div>}
+              {cierresRecon>0 && <div style={{fontSize:'0.786rem',color:'var(--alarm-critical-light)',background:'var(--alarm-critical-bg)',border:'1px solid var(--alarm-critical-border)',borderRadius:'var(--radius-1)',padding:'7px 11px'}}>✔ {cierresRecon} hallazgo{cierresRecon!==1?'s':''} activo{cierresRecon!==1?'s':''} de estos equipos ya no aparece{cierresRecon!==1?'n':''} en la inspección y se cerrará{cierresRecon!==1?'n':''} (marcado “No Activo”).</div>}
               {/* Por proceso + fechas */}
               <div style={{display:'flex',gap:16,flexWrap:'wrap',fontSize:'0.786rem',color:'var(--op-text-2)'}}>
                 <div><b style={{color:'var(--op-text-3)',fontSize:'0.667rem',textTransform:'uppercase',letterSpacing:'.05em'}}>Por proceso</b><br/>{Object.keys(byProc).length?Object.keys(byProc).map(p=>`${PROC_META[p]?.label||p}: ${byProc[p]}`).join(' · '):'—'}</div>
@@ -1112,12 +1121,12 @@ function ImportModal({ existing, onImport, onClose, busy }){
                   {parsed.warns.length>12 && <div style={{fontSize:'0.714rem',color:'var(--op-text-3)'}}>… y {parsed.warns.length-12} más</div>}
                 </div>
               )}
-              <div style={{fontSize:'0.714rem',color:'var(--op-text-3)'}}>Cada importación se suma como una nueva inspección (queda registrada en el historial y aparece como columna nueva en el mapa de calor). No reemplaza los datos existentes.</div>
+              <div style={{fontSize:'0.714rem',color:'var(--op-text-3)'}}>La inspección importada se toma como el estado actual: los hallazgos activos de los equipos incluidos que ya no aparecen se marcan “No Activo”. Queda registrada en el historial y como columna nueva en el mapa de calor.</div>
             </>
           )}
         </div>
         <div className="modal-foot">
-          <button className="btn btn-primary" disabled={busy||!parsed||(toImport.length===0&&updates.length===0)} onClick={confirmar}>{busy?'Procesando…':(()=>{ const parts=[]; if(nuevosReales>0)parts.push(`Importar ${nuevosReales}`); if(estadoChanges>0)parts.push(`actualizar ${estadoChanges}`); return parts.length?parts.join(' y '):'Sin cambios'; })()}</button>
+          <button className="btn btn-primary" disabled={busy||!parsed||(toImport.length===0&&updates.length===0&&cierresRecon===0)} onClick={confirmar}>{busy?'Procesando…':(()=>{ const parts=[]; if(nuevosReales>0)parts.push(`Importar ${nuevosReales}`); const cambios=estadoChanges+cierresRecon; if(cambios>0)parts.push(`actualizar ${cambios}`); return parts.length?parts.join(' y '):'Sin cambios'; })()}</button>
           <button className="btn btn-ghost" onClick={onClose}>Cancelar</button>
         </div>
       </div>
@@ -2095,7 +2104,7 @@ function App({ user, onLogout }){
           onSave={savePolin} onClose={()=>setPolAdding(false)} busy={busy}/>
       )}
       {importing && (
-        <ImportModal existing={existingPolMap} onImport={doImport} onClose={()=>setImporting(false)} busy={busy}/>
+        <ImportModal existing={existingPolMap} polAdds={polAdds} onImport={doImport} onClose={()=>setImporting(false)} busy={busy}/>
       )}
       {importResult && (
         <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.55)',zIndex:300,display:'flex',alignItems:'center',justifyContent:'center'}}>
