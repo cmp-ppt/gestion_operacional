@@ -728,6 +728,17 @@ async function dbUpdatePolinEstCond(id, estCond){
   const { error } = await sb.from('polines_hallazgos').update({ est_cond: estCond }).eq('id',realId);
   if(error) throw error;
 }
+/* Actualiza la fecha (última inspección) de un hallazgo existente */
+async function dbUpdatePolinFecha(id, fecha){
+  if(!LIVE){
+    const a=JSON.parse(localStorage.getItem(LS_POL)||'[]');
+    const i=a.findIndex(x=>x.id===id); if(i>=0){ a[i].fecha=fecha; localStorage.setItem(LS_POL,JSON.stringify(a)); }
+    return;
+  }
+  const realId=id.replace(/^db/,'');
+  const { error } = await sb.from('polines_hallazgos').update({ fecha }).eq('id',realId);
+  if(error) throw error;
+}
 async function dbAddPolinesBulk(rows, user){
   if(!LIVE){
     const a=JSON.parse(localStorage.getItem(LS_POL)||'[]');
@@ -1029,7 +1040,7 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
         res.valid.forEach(h=>{
           const ex = existing.get(polKey(h));
           if(ex){
-            if((ex.estCond||'Activo') === (h.estCond||'Activo')){ h._dup = true; }
+            if((ex.estCond||'Activo') === (h.estCond||'Activo')){ h._dup = true; if(ex.src==='db' && h.fecha && dmyKey(h.fecha)>dmyKey(ex.fecha)){ h._refreshFecha=true; h._refreshId=ex.id; } }
             else if(ex.src==='db'){ h._update = true; h._updateId = ex.id; h._prevEst = ex.estCond||'Activo'; }
             else { /* base: se inserta fila BD que supersede al histórico semilla */ h._supersede = true; h._prevEst = ex.estCond||'Activo'; }
           }
@@ -1062,10 +1073,12 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
   const notCoveredActive = parsed ? (polAdds||[]).filter(h=>(h.estCond||'Activo')==='Activo' && kpiCrit.includes(h.crit) && !fileTags.has(h.proc+'|'+h.tag)).length : 0;
   const fileKpiActive = parsed ? parsed.valid.filter(h=>(h.estCond||'Activo')==='Activo' && kpiCrit.includes(h.crit)).length : 0;
   const abiertosDespues = notCoveredActive + fileKpiActive;
+  const fechaUpdates = parsed ? parsed.valid.filter(h=>h._refreshFecha).map(h=>({id:h._refreshId, fecha:h.fecha})) : [];
+  const fechasRefresh = fechaUpdates.length;
 
   function confirmar(){
     const summary=Object.keys(byProc).map(p=>`${PROC_META[p]?.label||p}: ${byProc[p]}`).join(' · ')||'sin nuevos';
-    onImport(toImport, { fileName, summary, fechas, nuevosReales, estadoChanges: estadoChanges+cierresRecon }, [...updates, ...reconcileCloses]);
+    onImport(toImport, { fileName, summary, fechas, nuevosReales, estadoChanges: estadoChanges+cierresRecon, fechasRefresh }, [...updates, ...reconcileCloses, ...fechaUpdates]);
   }
 
   return (
@@ -1126,12 +1139,13 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
                   {parsed.warns.length>12 && <div style={{fontSize:'0.714rem',color:'var(--op-text-3)'}}>… y {parsed.warns.length-12} más</div>}
                 </div>
               )}
+              {fechasRefresh>0 && <div style={{fontSize:'0.786rem',color:'var(--cmp-blue-300)',background:'rgba(43,111,219,.10)',border:'1px solid rgba(43,111,219,.3)',borderRadius:'var(--radius-1)',padding:'7px 11px'}}>📅 {fechasRefresh} hallazgo{fechasRefresh!==1?'s':''} existente{fechasRefresh!==1?'s':''} se actualizará{fechasRefresh!==1?'n':''} a la fecha de esta inspección.</div>}
               <div style={{fontSize:'0.714rem',color:'var(--op-text-3)'}}>La inspección importada se toma como el estado actual: los hallazgos activos de los equipos incluidos que ya no aparecen se marcan “No Activo”. Queda registrada en el historial y como columna nueva en el mapa de calor.</div>
             </>
           )}
         </div>
         <div className="modal-foot">
-          <button className="btn btn-primary" disabled={busy||!parsed||(toImport.length===0&&updates.length===0&&cierresRecon===0)} onClick={confirmar}>{busy?'Procesando…':(()=>{ const parts=[]; if(nuevosReales>0)parts.push(`Importar ${nuevosReales}`); const cambios=estadoChanges+cierresRecon; if(cambios>0)parts.push(`actualizar ${cambios}`); return parts.length?parts.join(' y '):'Sin cambios'; })()}</button>
+          <button className="btn btn-primary" disabled={busy||!parsed||(toImport.length===0&&updates.length===0&&cierresRecon===0&&fechasRefresh===0)} onClick={confirmar}>{busy?'Procesando…':(()=>{ const parts=[]; if(nuevosReales>0)parts.push(`Importar ${nuevosReales}`); const cambios=estadoChanges+cierresRecon+fechasRefresh; if(cambios>0)parts.push(`actualizar ${cambios}`); return parts.length?parts.join(' y '):'Sin cambios'; })()}</button>
           <button className="btn btn-ghost" onClick={onClose}>Cancelar</button>
         </div>
       </div>
@@ -1880,7 +1894,7 @@ function App({ user, onLogout }){
   const existingPolMap = useMemo(()=>{
     const m=new Map();
     // BD primero (supersede a la base), luego base semilla
-    polAdds.forEach(h=>{ const k=polKey(h); if(!m.has(k)) m.set(k,{id:h.id, estCond:h.estCond||'Activo', src:'db'}); });
+    polAdds.forEach(h=>{ const k=polKey(h); if(!m.has(k)) m.set(k,{id:h.id, estCond:h.estCond||'Activo', src:'db', fecha:h.fecha}); });
     Object.keys(POLINES).forEach(pr=>Object.keys(POLINES[pr]||{}).forEach(tg=>(POLINES[pr][tg]||[]).forEach(h=>{ const k=polKey({...h,proc:pr,tag:tg}); if(!m.has(k)) m.set(k,{id:h.id, estCond:h.estCond||'Activo', src:'base'}); })));
     return m;
   },[polAdds]);
@@ -1891,7 +1905,7 @@ function App({ user, onLogout }){
       // actualizar estado de hallazgos existentes en BD (Activo → No Activo, etc.)
       let updated=0;
       if(updates && updates.length){
-        for(const u of updates){ await dbUpdatePolinEstCond(u.id, u.estCond); updated++; }
+        for(const u of updates){ if(u.estCond!=null) await dbUpdatePolinEstCond(u.id, u.estCond); if(u.fecha!=null) await dbUpdatePolinFecha(u.id, u.fecha); updated++; }
       }
       const nuevos = meta.nuevosReales!=null ? meta.nuevosReales : rows.length;
       const cambios = (meta.estadoChanges!=null ? meta.estadoChanges : updated);
