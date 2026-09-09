@@ -1058,6 +1058,10 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
   const updIds = new Set(updates.map(u=>u.id));
   const reconcileCloses = parsed ? (polAdds||[]).filter(h=>(h.estCond||'Activo')==='Activo' && fileTags.has(h.proc+'|'+h.tag) && !fileActiveKeys.has(polKey(h)) && !updIds.has(h.id)).map(h=>({id:h.id, estCond:'No Activo'})) : [];
   const cierresRecon = reconcileCloses.length;
+  const kpiCrit=['Media','Alta','Muy Alta'];
+  const notCoveredActive = parsed ? (polAdds||[]).filter(h=>(h.estCond||'Activo')==='Activo' && kpiCrit.includes(h.crit) && !fileTags.has(h.proc+'|'+h.tag)).length : 0;
+  const fileKpiActive = parsed ? parsed.valid.filter(h=>(h.estCond||'Activo')==='Activo' && kpiCrit.includes(h.crit)).length : 0;
+  const abiertosDespues = notCoveredActive + fileKpiActive;
 
   function confirmar(){
     const summary=Object.keys(byProc).map(p=>`${PROC_META[p]?.label||p}: ${byProc[p]}`).join(' · ')||'sin nuevos';
@@ -1099,6 +1103,7 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
                 <div className="kpi" style={{borderTopColor: dupCount>0?'var(--alarm-warning)':'var(--op-border-subtle)'}}><div className="kpi-lbl">Duplicados</div><div className="kpi-val" style={{color:dupCount>0?'var(--alarm-warning-light)':'var(--op-text-1)'}}>{dupCount}</div></div>
                 <div className="kpi"><div className="kpi-lbl">Omitidas</div><div className="kpi-val">{parsed.skipped}</div></div>
               </div>
+              <div style={{fontSize:'0.857rem',fontWeight:600,color:'var(--op-text-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',borderRadius:'var(--radius-1)',padding:'8px 12px'}}>Después de importar quedarán <span style={{color:'var(--alarm-critical-light)',fontSize:'1.05rem',fontWeight:700}}>{abiertosDespues}</span> hallazgo{abiertosDespues!==1?'s':''} abierto{abiertosDespues!==1?'s':''} (Media / Alta / Muy Alta; excluye Baja){notCoveredActive>0?` — incluye ${notCoveredActive} en equipos no cubiertos por el archivo`:''}.</div>
               {estadoChanges>0 && <div style={{fontSize:'0.786rem',color:'var(--cmp-blue-300)',background:'rgba(43,111,219,.10)',border:'1px solid rgba(43,111,219,.3)',borderRadius:'var(--radius-1)',padding:'7px 11px'}}>↻ {estadoChanges} hallazgo{estadoChanges!==1?'s':''} existente{estadoChanges!==1?'s':''} cambiará{estadoChanges!==1?'n':''} de estado (ej. Activo → No Activo) y dejará{estadoChanges!==1?'n':''} de aparecer en Críticos Polines.</div>}
               {cierresRecon>0 && <div style={{fontSize:'0.786rem',color:'var(--alarm-critical-light)',background:'var(--alarm-critical-bg)',border:'1px solid var(--alarm-critical-border)',borderRadius:'var(--radius-1)',padding:'7px 11px'}}>✔ {cierresRecon} hallazgo{cierresRecon!==1?'s':''} activo{cierresRecon!==1?'s':''} de estos equipos ya no aparece{cierresRecon!==1?'n':''} en la inspección y se cerrará{cierresRecon!==1?'n':''} (marcado “No Activo”).</div>}
               {/* Por proceso + fechas */}
