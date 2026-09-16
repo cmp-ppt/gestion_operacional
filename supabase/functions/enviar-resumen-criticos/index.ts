@@ -295,8 +295,7 @@ Deno.serve(async (req) => {
     <div style="font-size:9px;color:#666;margin-top:12px;text-align:center;border-top:1px solid #eee;padding-top:8px">
       <span style="color:#D94040;font-size:12px">■</span> Muy Alta &nbsp;&nbsp;
       <span style="color:#D97C30;font-size:12px">■</span> Alta &nbsp;&nbsp;
-      <span style="color:#EAB308;font-size:12px">■</span> Media &nbsp;&nbsp;
-      <span style="color:#b9c4d6;font-size:12px">■</span> histórico (sin desglose)
+      <span style="color:#EAB308;font-size:12px">■</span> Media
     </div>
   </td></tr>`;
   })() : "";
