@@ -254,9 +254,9 @@ Deno.serve(async (req) => {
     const bars = serie.map((r: any, i: number) => {
       const v = r.total ?? 0, last = i === n - 1;
       const bh = Math.max(3, Math.round(v / max * H));
-      const col = last ? "#b91c1c" : "#e6a7a7";
+      const col = last ? "#2b6fdb" : "#a9c6eb";
       return `<td valign="bottom" align="center" width="${Math.floor(100 / n)}%" style="padding:0 2px">
-        <div style="font-size:${last ? 13 : 11}px;font-weight:700;color:${last ? "#b91c1c" : "#888"};margin-bottom:3px">${v}</div>
+        <div style="font-size:${last ? 13 : 11}px;font-weight:700;color:${last ? "#2b6fdb" : "#888"};margin-bottom:3px">${v}</div>
         <div style="height:${bh}px;background:${col};border-radius:3px 3px 0 0"></div>
         <div style="font-size:8px;color:#999;margin-top:4px;white-space:nowrap;border-top:2px solid #e6e9f0;padding-top:3px">${fmt(r.fecha)}</div>
       </td>`;
