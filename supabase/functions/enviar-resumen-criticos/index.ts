@@ -256,7 +256,7 @@ Deno.serve(async (req) => {
     const scale = (x: number) => x > 0 ? Math.max(2, Math.round(x / max * H)) : 0;
     // Segmento = celda de tabla con bgcolor + height (atributos), compatible con Outlook (no <div height>).
     const segCell = (h: number, c: string) => h > 0
-      ? `<tr><td height="${h}" bgcolor="${c}" style="height:${h}px;line-height:0;font-size:0;background:${c}">&nbsp;</td></tr>`
+      ? `<tr><td height="${h}" bgcolor="${c}" style="height:${h}px;line-height:${h}px;mso-line-height-rule:exactly;font-size:1px;background-color:${c}">&nbsp;</td></tr>`
       : "";
     const bars = serie.map((r: any, i: number) => {
       const v = r.total ?? 0, last = i === n - 1;
@@ -266,7 +266,7 @@ Deno.serve(async (req) => {
         : segCell(Math.max(3, scale(v)), C_HIST);
       return `<td valign="bottom" align="center" width="${Math.floor(100 / n)}%" style="padding:0 2px">
         <div style="font-size:${last ? 13 : 11}px;font-weight:700;color:${last ? "#111" : "#888"};margin-bottom:3px">${v}</div>
-        <table cellpadding="0" cellspacing="0" align="center" width="22" style="width:22px;margin:0 auto"><tbody>${stack}</tbody></table>
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="22" style="width:22px;border-collapse:collapse;margin:0 auto"><tbody>${stack}</tbody></table>
         <div style="font-size:8px;color:#999;margin-top:4px;white-space:nowrap;border-top:2px solid #e6e9f0;padding-top:3px">${fmt(r.fecha)}</div>
       </td>`;
     }).join("");
