@@ -220,15 +220,14 @@ Deno.serve(async (req) => {
   const total     = hallazgos.length;
   const hoy       = new Date().toLocaleDateString("es-CL", { dateStyle: "long" });
 
-  // ── Evolución de críticos activos ───────────────────────────
-  const cnt     = (c: string) => hallazgos.filter((h: any) => h.crit === c).length;
-  const muyAlta = cnt("Muy Alta"), alta = cnt("Alta"), media = cnt("Media");
+  // ── Evolución de críticos activos (tendencia por envío) ─────
+  const muyAlta = hallazgos.filter((h: any) => h.crit === "Muy Alta").length;
+  const alta    = hallazgos.filter((h: any) => h.crit === "Alta").length;
+  const media   = hallazgos.filter((h: any) => h.crit === "Media").length;
   const porProc = (p: string) => hallazgos.filter((h: any) => normProc(h.proc) === p).length;
-  const MESES   = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-  const mesLabel = (ym: string) => { const [y, m] = ym.split("-"); return `${MESES[(+m) - 1]}-${y.slice(2)}`; };
 
-  // (1) Snapshot diario: guarda el estado de hoy y lee el histórico (tabla criticos_historial).
-  //     Envuelto en try/catch: si la tabla no existe aún, el correo sale igual sin la tendencia.
+  // Snapshot diario: guarda el estado de hoy y lee el histórico (tabla criticos_historial).
+  // Envuelto en try/catch: si la tabla no existe aún, el correo sale igual sin la tendencia.
   const hoyISO = new Date().toISOString().slice(0, 10);
   let historial: any[] = [];
   try {
@@ -241,46 +240,50 @@ Deno.serve(async (req) => {
     historial = h ?? [];
   } catch (_e) { historial = []; }
 
-  // (2) Por mes de detección: agrupa los críticos activos actuales por el mes de created_at.
-  const detBuckets: Record<string, number> = {};
-  hallazgos.forEach((h: any) => { const ym = (h.created_at ?? "").slice(0, 7); if (ym) detBuckets[ym] = (detBuckets[ym] ?? 0) + 1; });
-  const detMeses = Object.keys(detBuckets).sort().slice(-10);
-
-  // Gráfico de barras verticales en HTML/tabla (compatible con Gmail/Outlook, sin SVG ni JS).
-  const barChart = (points: { label: string; value: number }[], color: string) => {
-    if (!points.length) return "";
-    const max = Math.max(1, ...points.map(p => p.value));
-    const H = 88;
-    const cells = points.map(p => {
-      const bh = Math.max(2, Math.round(p.value / max * H));
-      return `<td valign="bottom" align="center" style="padding:0 3px">
-        <div style="font-size:10px;font-weight:700;color:#333;margin-bottom:2px">${p.value}</div>
-        <div style="width:24px;height:${bh}px;background:${color};border-radius:2px 2px 0 0;margin:0 auto"></div>
-        <div style="font-size:8px;color:#888;margin-top:3px;white-space:nowrap">${p.label}</div>
+  const serie = historial.slice(-12);
+  const evolucionBlock = serie.length ? (() => {
+    const vals  = serie.map((r: any) => r.total ?? 0);
+    const max   = Math.max(1, ...vals);
+    const cur   = vals[vals.length - 1];
+    const prev  = vals.length > 1 ? vals[vals.length - 2] : null;
+    const delta = prev == null ? null : cur - prev;
+    const avg   = Math.round(vals.reduce((s: number, n: number) => s + n, 0) / vals.length);
+    const mn    = Math.min(...vals), mx = Math.max(...vals);
+    const H = 122, n = serie.length;
+    const fmt = (iso: string) => (iso ?? "").slice(5).split("-").reverse().join("-");
+    const bars = serie.map((r: any, i: number) => {
+      const v = r.total ?? 0, last = i === n - 1;
+      const bh = Math.max(3, Math.round(v / max * H));
+      const col = last ? "#b91c1c" : "#e6a7a7";
+      return `<td valign="bottom" align="center" width="${Math.floor(100 / n)}%" style="padding:0 2px">
+        <div style="font-size:${last ? 13 : 11}px;font-weight:700;color:${last ? "#b91c1c" : "#888"};margin-bottom:3px">${v}</div>
+        <div style="height:${bh}px;background:${col};border-radius:3px 3px 0 0"></div>
+        <div style="font-size:8px;color:#999;margin-top:4px;white-space:nowrap;border-top:2px solid #e6e9f0;padding-top:3px">${fmt(r.fecha)}</div>
       </td>`;
     }).join("");
-    return `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 auto"><tr>${cells}</tr></table>`;
-  };
-
-  const trendPts = historial.slice(-12).map((r: any) => ({ label: (r.fecha ?? "").slice(5).split("-").reverse().join("-"), value: r.total ?? 0 }));
-  const trendHTML = barChart(trendPts, "#b91c1c");
-  const detPts = detMeses.map(ym => ({ label: mesLabel(ym), value: detBuckets[ym] }));
-  const detHTML = barChart(detPts, "#2b6fdb");
-
-  const evolucionBlock = (trendHTML || detHTML) ? `
-  <tr><td style="background:#fff;padding:14px 24px 10px;border-left:1px solid #dde2ec;border-right:1px solid #dde2ec;border-top:1px solid #eee">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#071840;border-bottom:2px solid #071840;padding-bottom:5px;margin-bottom:10px">📈 Evolución de críticos activos</div>
+    const deltaBadge = delta == null
+      ? `<span style="font-size:11px;color:#aaa">primer registro</span>`
+      : delta < 0
+      ? `<span style="display:inline-block;padding:3px 10px;border-radius:12px;background:#e9f7ef;color:#15803d;font-size:12px;font-weight:700;border:1px solid #15803d55">▼ ${Math.abs(delta)} vs. envío anterior</span>`
+      : delta > 0
+      ? `<span style="display:inline-block;padding:3px 10px;border-radius:12px;background:#fdecec;color:#b91c1c;font-size:12px;font-weight:700;border:1px solid #b91c1c55">▲ ${delta} vs. envío anterior</span>`
+      : `<span style="display:inline-block;padding:3px 10px;border-radius:12px;background:#eef0f5;color:#666;font-size:12px;font-weight:700;border:1px solid #ccc">= sin cambios</span>`;
+    return `
+  <tr><td style="background:#fff;padding:16px 24px 14px;border-left:1px solid #dde2ec;border-right:1px solid #dde2ec;border-top:1px solid #eee">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#071840;border-bottom:2px solid #071840;padding-bottom:5px;margin-bottom:12px">📉 Tendencia de críticos activos</div>
     <table width="100%" cellpadding="0" cellspacing="0"><tr>
-      <td width="50%" valign="top" align="center" style="padding:4px 8px">
-        <div style="font-size:10px;color:#555;font-weight:700;margin-bottom:8px">Tendencia — total activos por envío</div>
-        ${trendHTML || '<div style="font-size:10px;color:#aaa;padding:26px 0">Se construye con cada envío del correo.</div>'}
+      <td valign="middle" style="white-space:nowrap;padding-right:20px">
+        <div style="font-size:42px;font-weight:900;color:#b91c1c;line-height:1">${cur}</div>
+        <div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:.05em;margin:2px 0 9px">activos hoy</div>
+        <div>${deltaBadge}</div>
+        <div style="font-size:10px;color:#888;margin-top:9px">Máx ${mx} · Prom ${avg} · Mín ${mn} · ${n} envío${n !== 1 ? "s" : ""}</div>
       </td>
-      <td width="50%" valign="top" align="center" style="padding:4px 8px;border-left:1px solid #eee">
-        <div style="font-size:10px;color:#555;font-weight:700;margin-bottom:8px">Por mes de detección</div>
-        ${detHTML || '<div style="font-size:10px;color:#aaa;padding:26px 0">Sin datos.</div>'}
+      <td valign="bottom" style="border-left:1px solid #eee;padding-left:18px">
+        <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>${bars}</tr></table>
       </td>
     </tr></table>
-  </td></tr>` : "";
+  </td></tr>`;
+  })() : "";
 
   // ── Mapa de calor por correa ────────────────────────────────
   const byTag: Record<string, any> = {};
