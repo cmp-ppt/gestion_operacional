@@ -285,7 +285,7 @@ Deno.serve(async (req) => {
         <div style="font-size:42px;font-weight:900;color:#b91c1c;line-height:1">${cur}</div>
         <div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:.05em;margin:2px 0 9px">activos hoy</div>
         <div>${deltaBadge}</div>
-        <div style="font-size:8px;color:#999;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:12px">Histórico de estadística de inspecciones</div>
+        <div style="font-size:8px;color:#999;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:12px">Análisis estadístico histórico</div>
         <div style="font-size:10px;color:#888;margin-top:3px">Máx ${mx} · Prom ${avg} · Mín ${mn} · ${n} envío${n !== 1 ? "s" : ""}</div>
       </td>
       <td valign="bottom" style="border-left:1px solid #eee;padding-left:18px">
@@ -510,7 +510,7 @@ Deno.serve(async (req) => {
     const info = await transporter.sendMail({
       from:    `"CMP Dashboard" <${GMAIL_USER}>`,
       to:      DESTINATARIOS.join(", "),
-      subject: `[CMP] ${total} Hallazgo${total !== 1 ? "s" : ""} Crítico${total !== 1 ? "s" : ""} Activo${total !== 1 ? "s" : ""} en Polines — ${hoy}`,
+      subject: `[CMP] ${total} Hallazgo${total !== 1 ? "s" : ""} Crítico${total !== 1 ? "s" : ""} Activo${total !== 1 ? "s" : ""} en Polines — ${hoy} · ${new Date().toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", hour12: false })}`,
       html:    htmlBody,
     });
     return new Response(
