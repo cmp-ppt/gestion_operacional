@@ -252,7 +252,7 @@ Deno.serve(async (req) => {
     const H = 122, n = serie.length;
     const fmt = (iso: string) => (iso ?? "").slice(5).split("-").reverse().join("-");
     // Colores por criticidad y gris para histórico sin desglose.
-    const C_MA = "#dc2626", C_AL = "#ea580c", C_ME = "#f59e0b", C_HIST = "#b9c4d6";
+    const C_MA = "#D94040", C_AL = "#D97C30", C_ME = "#EAB308", C_HIST = "#b9c4d6";
     const scale = (x: number) => x > 0 ? Math.max(2, Math.round(x / max * H)) : 0;
     // Segmento = celda de tabla con bgcolor + height (atributos), compatible con Outlook (no <div height>).
     const segCell = (h: number, c: string) => h > 0
@@ -292,9 +292,9 @@ Deno.serve(async (req) => {
       </td>
     </tr></table>
     <div style="font-size:9px;color:#666;margin-top:12px;text-align:center;border-top:1px solid #eee;padding-top:8px">
-      <span style="color:#dc2626;font-size:12px">■</span> Muy Alta &nbsp;&nbsp;
-      <span style="color:#ea580c;font-size:12px">■</span> Alta &nbsp;&nbsp;
-      <span style="color:#f59e0b;font-size:12px">■</span> Media &nbsp;&nbsp;
+      <span style="color:#D94040;font-size:12px">■</span> Muy Alta &nbsp;&nbsp;
+      <span style="color:#D97C30;font-size:12px">■</span> Alta &nbsp;&nbsp;
+      <span style="color:#EAB308;font-size:12px">■</span> Media &nbsp;&nbsp;
       <span style="color:#b9c4d6;font-size:12px">■</span> histórico (sin desglose)
     </div>
   </td></tr>`;
