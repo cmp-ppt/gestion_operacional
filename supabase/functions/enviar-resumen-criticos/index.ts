@@ -285,7 +285,8 @@ Deno.serve(async (req) => {
         <div style="font-size:42px;font-weight:900;color:#b91c1c;line-height:1">${cur}</div>
         <div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:.05em;margin:2px 0 9px">activos hoy</div>
         <div>${deltaBadge}</div>
-        <div style="font-size:10px;color:#888;margin-top:9px">Máx ${mx} · Prom ${avg} · Mín ${mn} · ${n} envío${n !== 1 ? "s" : ""}</div>
+        <div style="font-size:8px;color:#999;text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:12px">Histórico de estadística de inspecciones</div>
+        <div style="font-size:10px;color:#888;margin-top:3px">Máx ${mx} · Prom ${avg} · Mín ${mn} · ${n} envío${n !== 1 ? "s" : ""}</div>
       </td>
       <td valign="bottom" style="border-left:1px solid #eee;padding-left:18px">
         <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>${bars}</tr></table>
