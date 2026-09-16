@@ -251,13 +251,22 @@ Deno.serve(async (req) => {
     const mn    = Math.min(...vals), mx = Math.max(...vals);
     const H = 122, n = serie.length;
     const fmt = (iso: string) => (iso ?? "").slice(5).split("-").reverse().join("-");
+    // Colores por criticidad y gris para histórico sin desglose.
+    const C_MA = "#dc2626", C_AL = "#ea580c", C_ME = "#f59e0b", C_HIST = "#b9c4d6";
+    const scale = (x: number) => x > 0 ? Math.max(2, Math.round(x / max * H)) : 0;
+    // Segmento = celda de tabla con bgcolor + height (atributos), compatible con Outlook (no <div height>).
+    const segCell = (h: number, c: string) => h > 0
+      ? `<tr><td height="${h}" bgcolor="${c}" style="height:${h}px;line-height:0;font-size:0;background:${c}">&nbsp;</td></tr>`
+      : "";
     const bars = serie.map((r: any, i: number) => {
       const v = r.total ?? 0, last = i === n - 1;
-      const bh = Math.max(3, Math.round(v / max * H));
-      const col = last ? "#2b6fdb" : "#a9c6eb";
+      const ma = r.muy_alta ?? 0, al = r.alta ?? 0, me = r.media ?? 0, seg = ma + al + me;
+      const stack = seg > 0
+        ? segCell(scale(me), C_ME) + segCell(scale(al), C_AL) + segCell(scale(ma), C_MA)  // top→abajo: Media, Alta, Muy Alta
+        : segCell(Math.max(3, scale(v)), C_HIST);
       return `<td valign="bottom" align="center" width="${Math.floor(100 / n)}%" style="padding:0 2px">
-        <div style="font-size:${last ? 13 : 11}px;font-weight:700;color:${last ? "#2b6fdb" : "#888"};margin-bottom:3px">${v}</div>
-        <div style="height:${bh}px;background:${col};border-radius:3px 3px 0 0"></div>
+        <div style="font-size:${last ? 13 : 11}px;font-weight:700;color:${last ? "#111" : "#888"};margin-bottom:3px">${v}</div>
+        <table cellpadding="0" cellspacing="0" align="center" width="22" style="width:22px;margin:0 auto"><tbody>${stack}</tbody></table>
         <div style="font-size:8px;color:#999;margin-top:4px;white-space:nowrap;border-top:2px solid #e6e9f0;padding-top:3px">${fmt(r.fecha)}</div>
       </td>`;
     }).join("");
@@ -282,6 +291,12 @@ Deno.serve(async (req) => {
         <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>${bars}</tr></table>
       </td>
     </tr></table>
+    <div style="font-size:9px;color:#666;margin-top:12px;text-align:center;border-top:1px solid #eee;padding-top:8px">
+      <span style="color:#dc2626;font-size:12px">■</span> Muy Alta &nbsp;&nbsp;
+      <span style="color:#ea580c;font-size:12px">■</span> Alta &nbsp;&nbsp;
+      <span style="color:#f59e0b;font-size:12px">■</span> Media &nbsp;&nbsp;
+      <span style="color:#b9c4d6;font-size:12px">■</span> histórico (sin desglose)
+    </div>
   </td></tr>`;
   })() : "";
 
