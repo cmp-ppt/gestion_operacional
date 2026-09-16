@@ -220,6 +220,68 @@ Deno.serve(async (req) => {
   const total     = hallazgos.length;
   const hoy       = new Date().toLocaleDateString("es-CL", { dateStyle: "long" });
 
+  // ── Evolución de críticos activos ───────────────────────────
+  const cnt     = (c: string) => hallazgos.filter((h: any) => h.crit === c).length;
+  const muyAlta = cnt("Muy Alta"), alta = cnt("Alta"), media = cnt("Media");
+  const porProc = (p: string) => hallazgos.filter((h: any) => normProc(h.proc) === p).length;
+  const MESES   = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  const mesLabel = (ym: string) => { const [y, m] = ym.split("-"); return `${MESES[(+m) - 1]}-${y.slice(2)}`; };
+
+  // (1) Snapshot diario: guarda el estado de hoy y lee el histórico (tabla criticos_historial).
+  //     Envuelto en try/catch: si la tabla no existe aún, el correo sale igual sin la tendencia.
+  const hoyISO = new Date().toISOString().slice(0, 10);
+  let historial: any[] = [];
+  try {
+    await sb.from("criticos_historial").upsert({
+      fecha: hoyISO, total, muy_alta: muyAlta, alta, media,
+      magnetita: porProc("magnetita"), cnn: porProc("cnn"), embarque: porProc("embarque"),
+      actualizado: new Date().toISOString(),
+    }, { onConflict: "fecha" });
+    const { data: h } = await sb.from("criticos_historial").select("*").order("fecha", { ascending: true });
+    historial = h ?? [];
+  } catch (_e) { historial = []; }
+
+  // (2) Por mes de detección: agrupa los críticos activos actuales por el mes de created_at.
+  const detBuckets: Record<string, number> = {};
+  hallazgos.forEach((h: any) => { const ym = (h.created_at ?? "").slice(0, 7); if (ym) detBuckets[ym] = (detBuckets[ym] ?? 0) + 1; });
+  const detMeses = Object.keys(detBuckets).sort().slice(-10);
+
+  // Gráfico de barras verticales en HTML/tabla (compatible con Gmail/Outlook, sin SVG ni JS).
+  const barChart = (points: { label: string; value: number }[], color: string) => {
+    if (!points.length) return "";
+    const max = Math.max(1, ...points.map(p => p.value));
+    const H = 88;
+    const cells = points.map(p => {
+      const bh = Math.max(2, Math.round(p.value / max * H));
+      return `<td valign="bottom" align="center" style="padding:0 3px">
+        <div style="font-size:10px;font-weight:700;color:#333;margin-bottom:2px">${p.value}</div>
+        <div style="width:24px;height:${bh}px;background:${color};border-radius:2px 2px 0 0;margin:0 auto"></div>
+        <div style="font-size:8px;color:#888;margin-top:3px;white-space:nowrap">${p.label}</div>
+      </td>`;
+    }).join("");
+    return `<table cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 auto"><tr>${cells}</tr></table>`;
+  };
+
+  const trendPts = historial.slice(-12).map((r: any) => ({ label: (r.fecha ?? "").slice(5).split("-").reverse().join("-"), value: r.total ?? 0 }));
+  const trendHTML = barChart(trendPts, "#b91c1c");
+  const detPts = detMeses.map(ym => ({ label: mesLabel(ym), value: detBuckets[ym] }));
+  const detHTML = barChart(detPts, "#2b6fdb");
+
+  const evolucionBlock = (trendHTML || detHTML) ? `
+  <tr><td style="background:#fff;padding:14px 24px 10px;border-left:1px solid #dde2ec;border-right:1px solid #dde2ec;border-top:1px solid #eee">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#071840;border-bottom:2px solid #071840;padding-bottom:5px;margin-bottom:10px">📈 Evolución de críticos activos</div>
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td width="50%" valign="top" align="center" style="padding:4px 8px">
+        <div style="font-size:10px;color:#555;font-weight:700;margin-bottom:8px">Tendencia — total activos por envío</div>
+        ${trendHTML || '<div style="font-size:10px;color:#aaa;padding:26px 0">Se construye con cada envío del correo.</div>'}
+      </td>
+      <td width="50%" valign="top" align="center" style="padding:4px 8px;border-left:1px solid #eee">
+        <div style="font-size:10px;color:#555;font-weight:700;margin-bottom:8px">Por mes de detección</div>
+        ${detHTML || '<div style="font-size:10px;color:#aaa;padding:26px 0">Sin datos.</div>'}
+      </td>
+    </tr></table>
+  </td></tr>` : "";
+
   // ── Mapa de calor por correa ────────────────────────────────
   const byTag: Record<string, any> = {};
   hallazgos.forEach((h: any) => {
@@ -357,6 +419,9 @@ Deno.serve(async (req) => {
       ${kpiCards}
     </tr></table>
   </td></tr>
+
+  <!-- EVOLUCIÓN -->
+  ${evolucionBlock}
 
   ${total === 0 ? sinHallazgos : `
   <!-- MAPA DE CALOR -->
