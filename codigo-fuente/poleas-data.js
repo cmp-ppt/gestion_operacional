@@ -1284,214 +1284,214 @@ window.POLEAS_DATA = {
    "nombre": "Correa 10 Cargador Barco (CT-10)",
    "tbo": "04-03-2029",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "13-03-2024",
-     "medOM": "40153186",
-     "medEstado": "18%"
-    },
-    {
-     "num": 2,
-     "tipo": "CONTRAPESO",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "05-06-2025",
-     "medOM": "10991579",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 3,
-     "tipo": "DEFLECTORA",
-     "fecha": "30-07-2024",
-     "dias": 673,
-     "orden": "10957520",
-     "aviso": "15100427",
-     "desc": "Cambio polea 3 (post contrapeso) CT-10",
-     "status": "crit",
-     "medicion": "02-04-2025",
-     "medOM": "10991578",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": "27-02-2024",
-     "dias": 827,
-     "orden": "10932582",
-     "aviso": "14849897",
-     "desc": "Apoyo cambio polea n°4 CT-10",
-     "status": "crit",
-     "medicion": "02-04-2025",
-     "medOM": "10991573",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 5,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "02-04-2025",
-     "medOM": "10991574",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 6,
-     "tipo": "MOTRIZ",
-     "fecha": "30-07-2024",
-     "dias": 673,
-     "orden": "10925494",
-     "aviso": "14770748",
-     "desc": "Cambio de polea motriz CT-10 cargador nave",
-     "status": "crit",
-     "medicion": "02-04-2025",
-     "medOM": "10991577",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 7,
-     "tipo": "DEFLECTORA",
-     "fecha": "30-07-2024",
-     "dias": 673,
-     "orden": "10957785",
-     "aviso": "15104560",
-     "desc": "Cambio polea 7 cargador barco",
-     "status": "crit",
-     "medicion": "02-04-2025",
-     "medOM": "10991575",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 8,
-     "tipo": "DEFLECTORA",
-     "fecha": "16-04-2025",
-     "dias": 413,
-     "orden": "10994418",
-     "aviso": "15428293",
-     "desc": "Retiro/cambio polea 8 cargador de barcos",
-     "status": "crit",
-     "medicion": "02-04-2025",
-     "medOM": "10991576",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 9,
-     "tipo": "ENVOLVENTE",
-     "fecha": "31-03-2025",
-     "dias": 429,
-     "orden": null,
-     "aviso": null,
-     "desc": "Cambio polea envolvente CT-10 (s/registro OM)",
-     "status": "crit",
-     "medicion": "13-03-2024",
-     "medOM": "40153186",
-     "medEstado": "Sin información"
-    },
-    {
-     "num": 10,
-     "tipo": "QUIEBRE",
-     "fecha": "14-04-2022",
-     "dias": 1511,
-     "orden": "31026232",
-     "aviso": "13642448",
-     "desc": "Cambio de polea de quiebre CT-10",
-     "status": "crit",
-     "medicion": "17-10-2023",
-     "medOM": "40129752",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 11,
-     "tipo": "DEFLECTORA",
-     "fecha": "21-01-2026",
-     "dias": 133,
-     "orden": "11031008",
-     "aviso": "15690170",
-     "desc": "Cambio polea 11 CT-10",
-     "status": "crit",
-     "medicion": "11-01-2024",
-     "medOM": "40150732",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 12,
-     "tipo": "COLA",
-     "fecha": "05-02-2023",
-     "dias": 1214,
-     "orden": "31132174",
-     "aviso": "14166554",
-     "desc": "Cambio de polea n°12 (cola) CT-10",
-     "status": "crit",
-     "medicion": "23-01-2025",
-     "medOM": null,
-     "medEstado": "No se detecta"
-    }
+      {
+         "num": 1,
+         "tipo": "COLA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none",
+         "medicion": "13-03-2024",
+         "medOM": "40153186",
+         "medEstado": "18%"
+      },
+      {
+         "num": 2,
+         "tipo": "CONTRAPESO",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none",
+         "medicion": "05-06-2025",
+         "medOM": "10991579",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 3,
+         "tipo": "DEFLECTORA",
+         "fecha": "30-07-2024",
+         "dias": 673,
+         "orden": "10957520",
+         "aviso": "15100427",
+         "desc": "Cambio polea 3 (post contrapeso) CT-10",
+         "status": "crit",
+         "medicion": "02-04-2025",
+         "medOM": "10991578",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA",
+         "fecha": "27-02-2024",
+         "dias": 827,
+         "orden": "10932582",
+         "aviso": "14849897",
+         "desc": "Apoyo cambio polea n°4 CT-10",
+         "status": "crit",
+         "medicion": "02-04-2025",
+         "medOM": "10991573",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 5,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none",
+         "medicion": "02-04-2025",
+         "medOM": "10991574",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 6,
+         "tipo": "MOTRIZ",
+         "fecha": "30-07-2024",
+         "dias": 673,
+         "orden": "10925494",
+         "aviso": "14770748",
+         "desc": "Cambio de polea motriz CT-10 cargador nave",
+         "status": "crit",
+         "medicion": "02-04-2025",
+         "medOM": "10991577",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 7,
+         "tipo": "DEFLECTORA",
+         "fecha": "30-07-2024",
+         "dias": 673,
+         "orden": "10957785",
+         "aviso": "15104560",
+         "desc": "Cambio polea 7 cargador barco",
+         "status": "crit",
+         "medicion": "02-04-2025",
+         "medOM": "10991575",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 10,
+         "tipo": "QUIEBRE",
+         "fecha": "14-04-2022",
+         "dias": 1511,
+         "orden": "31026232",
+         "aviso": "13642448",
+         "desc": "Cambio de polea de quiebre CT-10",
+         "status": "crit",
+         "medicion": "17-10-2023",
+         "medOM": "40129752",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 9,
+         "tipo": "ENVOLVENTE",
+         "fecha": "31-03-2025",
+         "dias": 429,
+         "orden": null,
+         "aviso": null,
+         "desc": "Cambio polea envolvente CT-10 (s/registro OM)",
+         "status": "crit",
+         "medicion": "13-03-2024",
+         "medOM": "40153186",
+         "medEstado": "Sin información"
+      },
+      {
+         "num": 8,
+         "tipo": "CABEZA",
+         "fecha": "16-04-2025",
+         "dias": 413,
+         "orden": "10994418",
+         "aviso": "15428293",
+         "desc": "Retiro/cambio polea 8 cargador de barcos",
+         "status": "crit",
+         "medicion": "02-04-2025",
+         "medOM": "10991576",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 11,
+         "tipo": "DEFLECTORA",
+         "fecha": "21-01-2026",
+         "dias": 133,
+         "orden": "11031008",
+         "aviso": "15690170",
+         "desc": "Cambio polea 11 CT-10",
+         "status": "crit",
+         "medicion": "11-01-2024",
+         "medOM": "40150732",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 12,
+         "tipo": "CABEZA",
+         "fecha": "05-02-2023",
+         "dias": 1214,
+         "orden": "31132174",
+         "aviso": "14166554",
+         "desc": "Cambio de polea n°12 (cola) CT-10",
+         "status": "crit",
+         "medicion": "23-01-2025",
+         "medOM": null,
+         "medEstado": "No se detecta"
+      }
    ],
    "diag": [
-    [
-     40,
-     75
-    ],
-    [
-     90,
-     75
-    ],
-    [
-     140,
-     75
-    ],
-    [
-     190,
-     75
-    ],
-    [
-     240,
-     75
-    ],
-    [
-     290,
-     75
-    ],
-    [
-     340,
-     75
-    ],
-    [
-     390,
-     75
-    ],
-    [
-     440,
-     75
-    ],
-    [
-     490,
-     75
-    ],
-    [
-     540,
-     75
-    ],
-    [
-     590,
-     75
-    ]
+      [
+         60,
+         72
+      ],
+      [
+         60,
+         114
+      ],
+      [
+         120,
+         90
+      ],
+      [
+         180,
+         76
+      ],
+      [
+         240,
+         96
+      ],
+      [
+         300,
+         116
+      ],
+      [
+         360,
+         84
+      ],
+      [
+         415,
+         70
+      ],
+      [
+         460,
+         86
+      ],
+      [
+         505,
+         80
+      ],
+      [
+         548,
+         66
+      ],
+      [
+         590,
+         56
+      ]
    ]
-  },
+},
   "FS24416": {
    "nombre": "Correa 16 (CT-16)",
    "tbo": "01-01-2027",
