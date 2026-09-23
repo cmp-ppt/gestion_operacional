@@ -461,76 +461,76 @@ window.POLEAS_DATA = {
    "nombre": "Correa 11",
    "tbo": "16-04-2029",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA",
-     "fecha": "03-06-2025",
-     "dias": 365,
-     "orden": "11000119",
-     "aviso": "15470446",
-     "desc": "Cambio de polea contrapeso ct-11",
-     "status": "crit"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    }
+      {
+         "num": 5,
+         "tipo": "COLA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA",
+         "fecha": "03-06-2025",
+         "dias": 365,
+         "orden": "11000119",
+         "aviso": "15470446",
+         "desc": "Cambio de polea contrapeso ct-11",
+         "status": "crit"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 1,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      }
    ],
    "diag": [
-    [
-     50,
-     75
-    ],
-    [
-     150,
-     75
-    ],
-    [
-     280,
-     75
-    ],
-    [
-     410,
-     75
-    ],
-    [
-     550,
-     75
-    ]
+      [
+         55,
+         68
+      ],
+      [
+         400,
+         88
+      ],
+      [
+         435,
+         120
+      ],
+      [
+         470,
+         85
+      ],
+      [
+         585,
+         62
+      ]
    ]
-  },
+},
   "FS24212": {
    "nombre": "Correa 12",
    "tbo": "26-04-2028",
