@@ -535,152 +535,152 @@ window.POLEAS_DATA = {
    "nombre": "Correa 12",
    "tbo": "26-04-2028",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": "19-10-2022",
-     "dias": 1286,
-     "orden": "10858707",
-     "aviso": "14116699",
-     "desc": "Armado de polea deflectora CT-12",
-     "status": "crit"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    }
+      {
+         "num": 5,
+         "tipo": "COLA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA",
+         "fecha": "19-10-2022",
+         "dias": 1286,
+         "orden": "10858707",
+         "aviso": "14116699",
+         "desc": "Armado de polea deflectora CT-12",
+         "status": "crit"
+      },
+      {
+         "num": 1,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      }
    ],
    "diag": [
-    [
-     50,
-     75
-    ],
-    [
-     150,
-     75
-    ],
-    [
-     280,
-     75
-    ],
-    [
-     410,
-     75
-    ],
-    [
-     550,
-     75
-    ]
+      [
+         55,
+         116
+      ],
+      [
+         380,
+         82
+      ],
+      [
+         415,
+         118
+      ],
+      [
+         450,
+         78
+      ],
+      [
+         585,
+         55
+      ]
    ]
-  },
+},
   "FS24213": {
    "nombre": "Correa 13",
    "tbo": "14-06-2027",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": "07-10-2021",
-     "dias": 1700,
-     "orden": "10797051",
-     "aviso": "13585220",
-     "desc": "Cambio polea deflectora CT-13 (CMP)",
-     "status": "crit"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": "19-10-2018",
-     "dias": 2784,
-     "orden": "10627115",
-     "aviso": "12057194",
-     "desc": "Cambio polea deflectora CT-13",
-     "status": "crit"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA",
-     "fecha": "22-07-2023",
-     "dias": 1012,
-     "orden": "10888562",
-     "aviso": "14386498",
-     "desc": "Armado de polea cola CT-13",
-     "status": "crit"
-    }
+      {
+         "num": 5,
+         "tipo": "COLA",
+         "fecha": "22-07-2023",
+         "dias": 1012,
+         "orden": "10888562",
+         "aviso": "14386498",
+         "desc": "Armado de polea cola CT-13",
+         "status": "crit"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA",
+         "fecha": "19-10-2018",
+         "dias": 2784,
+         "orden": "10627115",
+         "aviso": "12057194",
+         "desc": "Cambio polea deflectora CT-13",
+         "status": "crit"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA",
+         "fecha": "07-10-2021",
+         "dias": 1700,
+         "orden": "10797051",
+         "aviso": "13585220",
+         "desc": "Cambio polea deflectora CT-13 (CMP)",
+         "status": "crit"
+      },
+      {
+         "num": 1,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      }
    ],
    "diag": [
-    [
-     50,
-     75
-    ],
-    [
-     150,
-     75
-    ],
-    [
-     280,
-     75
-    ],
-    [
-     410,
-     75
-    ],
-    [
-     550,
-     75
-    ]
+      [
+         55,
+         116
+      ],
+      [
+         380,
+         82
+      ],
+      [
+         415,
+         118
+      ],
+      [
+         450,
+         78
+      ],
+      [
+         585,
+         55
+      ]
    ]
-  },
+},
   "FS24214": {
    "nombre": "Correa 14",
    "tbo": "09-12-2026",
