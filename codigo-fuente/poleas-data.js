@@ -841,75 +841,75 @@ window.POLEAS_DATA = {
    "nombre": "Correa 15",
    "tbo": "14-11-2034",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA",
-     "fecha": null,
-     "dias": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ (Ø630)",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "TENSORA (Ø500)",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA (Ø500)",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 4,
+         "tipo": "TENSORA (Ø500)",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 5,
+         "tipo": "COLA (Ø500)",
+         "fecha": null,
+         "dias": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      }
    ],
    "diag": [
-    [
-     50,
-     75
-    ],
-    [
-     180,
-     75
-    ],
-    [
-     280,
-     75
-    ],
-    [
-     410,
-     75
-    ],
-    [
-     550,
-     75
-    ]
+      [
+         60,
+         68
+      ],
+      [
+         250,
+         88
+      ],
+      [
+         310,
+         122
+      ],
+      [
+         370,
+         88
+      ],
+      [
+         580,
+         68
+      ]
    ]
-  }
+}
  },
  "EMBARQUE": {
   "FS23445": {
