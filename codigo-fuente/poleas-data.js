@@ -5,172 +5,172 @@ window.POLEAS_DATA = {
    "nombre": "Correa 1",
    "tbo": "27-08-2030",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ (762x965mm)",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA (508x1448mm)",
-     "fecha": "15-09-2023",
-     "dias": 991,
-     "orden": "31212114",
-     "aviso": "14557934",
-     "desc": "Armado de polea deflectora correa 1",
-     "status": "crit"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA (508x1448mm)",
-     "fecha": "12-01-2011",
-     "dias": 5609,
-     "orden": "120011448",
-     "aviso": "10437831",
-     "desc": "CT-01 Cambio de polea contrapeso",
-     "status": "crit"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA (508x1448mm)",
-     "fecha": "07-11-2018",
-     "dias": 2769,
-     "orden": "20094048",
-     "aviso": "12166473",
-     "desc": "Cambio rodamiento polea deflectora CT-01",
-     "status": "crit"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA (508x1448mm)",
-     "fecha": "04-10-2016",
-     "dias": 3531,
-     "orden": "10531000",
-     "aviso": "11659709",
-     "desc": "Cambio polea cola CT-01",
-     "status": "crit"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ (762x965mm)",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA (508x1448mm)",
+         "fecha": "15-09-2023",
+         "dias": 991,
+         "orden": "31212114",
+         "aviso": "14557934",
+         "desc": "Armado de polea deflectora correa 1",
+         "status": "crit"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA (508x1448mm)",
+         "fecha": "12-01-2011",
+         "dias": 5609,
+         "orden": "120011448",
+         "aviso": "10437831",
+         "desc": "CT-01 Cambio de polea contrapeso",
+         "status": "crit"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA (508x1448mm)",
+         "fecha": "07-11-2018",
+         "dias": 2769,
+         "orden": "20094048",
+         "aviso": "12166473",
+         "desc": "Cambio rodamiento polea deflectora CT-01",
+         "status": "crit"
+      },
+      {
+         "num": 5,
+         "tipo": "COLA (508x1448mm)",
+         "fecha": "04-10-2016",
+         "dias": 3531,
+         "orden": "10531000",
+         "aviso": "11659709",
+         "desc": "Cambio polea cola CT-01",
+         "status": "crit"
+      }
    ],
    "diag": [
-    [
-     80,
-     50
-    ],
-    [
-     170,
-     110
-    ],
-    [
-     280,
-     130
-    ],
-    [
-     390,
-     110
-    ],
-    [
-     550,
-     50
-    ]
+      [
+         55,
+         68
+      ],
+      [
+         175,
+         95
+      ],
+      [
+         240,
+         128
+      ],
+      [
+         305,
+         95
+      ],
+      [
+         585,
+         66
+      ]
    ]
-  },
+},
   "FS23220": {
    "nombre": "Correa 2",
    "tbo": "23-08-2034",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ (762x965mm)",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA (508x965mm)",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA (508x965mm)",
-     "fecha": "04-07-2022",
-     "dias": 1428,
-     "orden": "31090494",
-     "aviso": "13855865",
-     "desc": "Cambio de polea contrapeso CT-02",
-     "status": "crit"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA (508x965mm)",
-     "fecha": "19-06-2019",
-     "dias": 2540,
-     "orden": "10682433",
-     "aviso": "12363467",
-     "desc": "Cambio de polea deflectora CT-02",
-     "status": "crit"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA (508x965mm)",
-     "fecha": "06-06-2024",
-     "dias": 726,
-     "orden": "31282825",
-     "aviso": "14946500",
-     "desc": "Armado de polea cola correa 02",
-     "status": "crit"
-    },
-    {
-     "num": 6,
-     "tipo": "QUIEBRE",
-     "fecha": "13-06-2023",
-     "dias": 1085,
-     "orden": "10894682",
-     "aviso": "14377247",
-     "desc": "Cambio polea de quiebre CT-02",
-     "status": "crit"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ (762x965mm)",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA (508x965mm)",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA (508x965mm)",
+         "fecha": "04-07-2022",
+         "dias": 1428,
+         "orden": "31090494",
+         "aviso": "13855865",
+         "desc": "Cambio de polea contrapeso CT-02",
+         "status": "crit"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA (508x965mm)",
+         "fecha": "19-06-2019",
+         "dias": 2540,
+         "orden": "10682433",
+         "aviso": "12363467",
+         "desc": "Cambio de polea deflectora CT-02",
+         "status": "crit"
+      },
+      {
+         "num": 6,
+         "tipo": "QUIEBRE",
+         "fecha": "13-06-2023",
+         "dias": 1085,
+         "orden": "10894682",
+         "aviso": "14377247",
+         "desc": "Cambio polea de quiebre CT-02",
+         "status": "crit"
+      },
+      {
+         "num": 5,
+         "tipo": "COLA (508x965mm)",
+         "fecha": "06-06-2024",
+         "dias": 726,
+         "orden": "31282825",
+         "aviso": "14946500",
+         "desc": "Armado de polea cola correa 02",
+         "status": "crit"
+      }
    ],
    "diag": [
-    [
-     80,
-     50
-    ],
-    [
-     160,
-     110
-    ],
-    [
-     280,
-     130
-    ],
-    [
-     400,
-     110
-    ],
-    [
-     550,
-     50
-    ],
-    [
-     320,
-     20
-    ]
+      [
+         55,
+         66
+      ],
+      [
+         170,
+         92
+      ],
+      [
+         235,
+         126
+      ],
+      [
+         300,
+         92
+      ],
+      [
+         440,
+         82
+      ],
+      [
+         585,
+         70
+      ]
    ]
-  },
+},
   "FS23230": {
    "nombre": "Correa 3",
    "tbo": "25-06-2027",
