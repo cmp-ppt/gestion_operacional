@@ -43,6 +43,7 @@
   .selbar { background:var(--op-surface-1); border-bottom:1px solid var(--op-border-subtle); padding:8px 20px; display:flex; align-items:center; gap:16px; flex-shrink:0; flex-wrap:wrap; }
   .sel-label { font-size:0.714rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--op-text-3); }
   .proc-btn { display:inline-flex; align-items:center; gap:7px; padding:5px 14px; border:1px solid var(--op-border-subtle); background:var(--op-surface-2); border-radius:var(--radius-1); font-family:var(--font-sans); font-size:var(--fs-nav); font-weight:500; color:var(--op-text-2); cursor:pointer; transition:all .12s; }
+  .proc-btn-lg { padding:9px 20px; gap:10px; font-size:1rem; font-weight:600; }
   .proc-btn:hover { border-color:var(--op-border-strong); color:var(--op-text-1); }
   .proc-btn.active { background:var(--cmp-blue-700); border-color:var(--cmp-blue-500); color:#fff; font-weight:600; }
   .proc-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
@@ -290,7 +291,7 @@ const PROC_META = {
 function ProcGlyph({ proc, size=15, color }){
   const col = color || PROC_META[proc]?.dot || 'currentColor';
   const P = {
-    MAGNETITA: <><path d="M7 3v7a5 5 0 0010 0V3"/><path d="M5 3h4M15 3h4M5 8h4M15 8h4"/></>,
+    MAGNETITA: <><circle cx="12" cy="14.5" r="6.5"/><circle cx="12" cy="14.5" r="1.9"/><circle cx="8.7" cy="4.6" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="3.6" r="1" fill="currentColor" stroke="none"/><circle cx="15.3" cy="4.6" r="1" fill="currentColor" stroke="none"/><path d="M8.9 5.7L9.9 7.6M12 4.7V7M15.1 5.7L14.1 7.6"/></>,
     EMBARQUE:  <><path d="M4 14l1.4 4.3a2 2 0 001.9 1.4h9.4a2 2 0 001.9-1.4L20 14"/><path d="M6 14V9h12v5"/><path d="M12 3v6"/></>,
     CNN:       <><path d="M3 20L12 5l9 15z"/><path d="M7.5 12.5H16.5M5 16.5H19"/></>,
   };
@@ -2012,8 +2013,8 @@ function App({ user, onLogout }){
       <div className="selbar">
         <span className="sel-label">Proceso</span>
         {Object.keys(PROC_META).map(p=>(
-          <button key={p} className={`proc-btn${proc===p?' active':''}`} onClick={()=>selectProc(p)}>
-            <ProcGlyph proc={p} color={proc===p?'#fff':undefined}/>{PROC_META[p].label}
+          <button key={p} className={`proc-btn proc-btn-lg${proc===p?' active':''}`} onClick={()=>selectProc(p)}>
+            <ProcGlyph proc={p} size={19} color={proc===p?'#fff':undefined}/>{PROC_META[p].label}
           </button>
         ))}
         <span style={{flexShrink:0,width:1,height:18,background:'var(--op-border-subtle)',margin:'0 4px'}}></span>
