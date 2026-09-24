@@ -1123,163 +1123,163 @@ window.POLEAS_DATA = {
    "nombre": "Correa 9 (CT-09)",
    "tbo": "07-01-2029",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "06-04-2026",
-     "medOM": "11035774",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": "04-11-2021",
-     "dias": 1672,
-     "orden": "10775433",
-     "aviso": "13244062",
-     "desc": "Cambio polea n°2 CT-09",
-     "status": "crit",
-     "medicion": "11-02-2026",
-     "medOM": "11019944",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 3,
-     "tipo": "ANTE CONTRAPESO",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "11-02-2026",
-     "medOM": "11019944",
-     "medEstado": "25%"
-    },
-    {
-     "num": 4,
-     "tipo": "CONTRAPESO",
-     "fecha": "21-01-2026",
-     "dias": 133,
-     "orden": "11031002",
-     "aviso": "15690502",
-     "desc": "Cambio de polea contrapeso CT-09",
-     "status": "crit",
-     "medicion": "06-04-2026",
-     "medOM": "11035774",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 5,
-     "tipo": "POST CONTRAPESO",
-     "fecha": "30-07-2024",
-     "dias": 673,
-     "orden": "10957520",
-     "aviso": "15100427",
-     "desc": "Cambio polea post contrapeso CT-09",
-     "status": "crit",
-     "medicion": "11-02-2026",
-     "medOM": "11019944",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 6,
-     "tipo": "COLA",
-     "fecha": "19-11-2022",
-     "dias": 1292,
-     "orden": "10863320",
-     "aviso": "14154766",
-     "desc": "Cambio de polea cola CT-09",
-     "status": "crit",
-     "medicion": "06-04-2026",
-     "medOM": "11035774",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 7,
-     "tipo": "ENVOLVENTE",
-     "fecha": "15-10-2021",
-     "dias": 1692,
-     "orden": "10796885",
-     "aviso": "13583079",
-     "desc": "Apoyo cambio polea n°7 (envolvente) CT-09",
-     "status": "crit",
-     "medicion": "11-02-2026",
-     "medOM": "11019944",
-     "medEstado": "20%"
-    },
-    {
-     "num": 8,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "11-02-2026",
-     "medOM": "11019944",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 9,
-     "tipo": "CABEZA",
-     "fecha": "16-05-2026",
-     "dias": 18,
-     "orden": "20231355",
-     "aviso": "15801474",
-     "desc": "Armado de polea de cabeza CT-09",
-     "status": "crit",
-     "medicion": "15-05-2026",
-     "medOM": "20231340",
-     "medEstado": "No se detecta"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none",
+         "medicion": "06-04-2026",
+         "medOM": "11035774",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA",
+         "fecha": "04-11-2021",
+         "dias": 1672,
+         "orden": "10775433",
+         "aviso": "13244062",
+         "desc": "Cambio polea n°2 CT-09",
+         "status": "crit",
+         "medicion": "11-02-2026",
+         "medOM": "11019944",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 3,
+         "tipo": "ANTE CONTRAPESO",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none",
+         "medicion": "11-02-2026",
+         "medOM": "11019944",
+         "medEstado": "25%"
+      },
+      {
+         "num": 4,
+         "tipo": "CONTRAPESO",
+         "fecha": "21-01-2026",
+         "dias": 133,
+         "orden": "11031002",
+         "aviso": "15690502",
+         "desc": "Cambio de polea contrapeso CT-09",
+         "status": "crit",
+         "medicion": "06-04-2026",
+         "medOM": "11035774",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 5,
+         "tipo": "POST CONTRAPESO",
+         "fecha": "30-07-2024",
+         "dias": 673,
+         "orden": "10957520",
+         "aviso": "15100427",
+         "desc": "Cambio polea post contrapeso CT-09",
+         "status": "crit",
+         "medicion": "11-02-2026",
+         "medOM": "11019944",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 6,
+         "tipo": "COLA",
+         "fecha": "19-11-2022",
+         "dias": 1292,
+         "orden": "10863320",
+         "aviso": "14154766",
+         "desc": "Cambio de polea cola CT-09",
+         "status": "crit",
+         "medicion": "06-04-2026",
+         "medOM": "11035774",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 7,
+         "tipo": "ENVOLVENTE",
+         "fecha": "15-10-2021",
+         "dias": 1692,
+         "orden": "10796885",
+         "aviso": "13583079",
+         "desc": "Apoyo cambio polea n°7 (envolvente) CT-09",
+         "status": "crit",
+         "medicion": "11-02-2026",
+         "medOM": "11019944",
+         "medEstado": "20%"
+      },
+      {
+         "num": 8,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none",
+         "medicion": "11-02-2026",
+         "medOM": "11019944",
+         "medEstado": "No se detecta"
+      },
+      {
+         "num": 9,
+         "tipo": "CABEZA",
+         "fecha": "16-05-2026",
+         "dias": 18,
+         "orden": "20231355",
+         "aviso": "15801474",
+         "desc": "Armado de polea de cabeza CT-09",
+         "status": "crit",
+         "medicion": "15-05-2026",
+         "medOM": "20231340",
+         "medEstado": "No se detecta"
+      }
    ],
    "diag": [
-    [
-     45,
-     75
-    ],
-    [
-     110,
-     75
-    ],
-    [
-     175,
-     75
-    ],
-    [
-     240,
-     75
-    ],
-    [
-     305,
-     75
-    ],
-    [
-     370,
-     75
-    ],
-    [
-     435,
-     75
-    ],
-    [
-     500,
-     75
-    ],
-    [
-     565,
-     75
-    ]
+      [
+         60,
+         78
+      ],
+      [
+         130,
+         82
+      ],
+      [
+         195,
+         80
+      ],
+      [
+         170,
+         124
+      ],
+      [
+         255,
+         80
+      ],
+      [
+         300,
+         122
+      ],
+      [
+         350,
+         128
+      ],
+      [
+         420,
+         96
+      ],
+      [
+         575,
+         74
+      ]
    ]
-  },
+},
   "FS23485-B": {
    "nombre": "Correa 10 Cargador Barco (CT-10)",
    "tbo": "04-03-2029",
