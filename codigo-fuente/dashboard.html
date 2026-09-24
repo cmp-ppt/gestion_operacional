@@ -292,7 +292,7 @@ function ProcGlyph({ proc, size=15, color }){
   const P = {
     MAGNETITA: <><path d="M7 3v7a5 5 0 0010 0V3"/><path d="M5 3h4M15 3h4M5 8h4M15 8h4"/></>,
     EMBARQUE:  <><path d="M4 14l1.4 4.3a2 2 0 001.9 1.4h9.4a2 2 0 001.9-1.4L20 14"/><path d="M6 14V9h12v5"/><path d="M12 3v6"/></>,
-    CNN:       <><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5"/></>,
+    CNN:       <><path d="M3 20L12 5l9 15z"/><path d="M7.5 12.5H16.5M5 16.5H19"/></>,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={col} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>{P[proc]||<circle cx="12" cy="12" r="5" fill={col} stroke="none"/>}</svg>;
 }
@@ -1732,7 +1732,7 @@ function EstadoPoleasView({ overrides, tboOverrides }){
         <button className={`pol-fbtn${filtroProc==='todos'?' active':''}`} onClick={()=>setFiltroProc('todos')} style={{padding:'3px 12px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',border:'1px solid var(--op-border-strong)',background:filtroProc==='todos'?'var(--cmp-blue-600)':'var(--op-surface-2)',color:filtroProc==='todos'?'#fff':'var(--op-text-2)',cursor:'pointer'}}>Todos</button>
         {Object.keys(PROC_META).map(p=>(
           <button key={p} onClick={()=>setFiltroProc(p)} style={{display:'inline-flex',alignItems:'center',gap:5,padding:'3px 12px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',border:'1px solid var(--op-border-strong)',background:filtroProc===p?PROC_META[p].dot:'var(--op-surface-2)',color:filtroProc===p?'#fff':'var(--op-text-2)',cursor:'pointer'}}>
-            <span style={{width:7,height:7,borderRadius:'50%',background:filtroProc===p?'#fff':PROC_META[p].dot}}></span>{PROC_META[p].label}
+            <ProcGlyph proc={p} size={13} color={filtroProc===p?'#fff':undefined}/>{PROC_META[p].label}
           </button>
         ))}
       </div>
