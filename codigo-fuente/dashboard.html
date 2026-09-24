@@ -172,7 +172,8 @@
   .sb-item a:hover { color:var(--op-text-2); }
 
   /* LOGIN */
-  .login-bg { position:fixed; inset:0; background:var(--op-bg); display:flex; align-items:center; justify-content:center; padding:20px; }
+  .login-bg { position:fixed; inset:0; background:radial-gradient(circle at 50% 30%, var(--cmp-blue-900) 0%, var(--op-bg) 72%); display:flex; align-items:center; justify-content:center; padding:20px; overflow:hidden; }
+  .login-scene { position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:min(1150px,150vw); opacity:0.15; pointer-events:none; }
   .login-card { width:380px; max-width:94vw; background:var(--op-surface-1); border:1px solid var(--op-border-subtle); border-radius:var(--radius-3); overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.4); }
   .login-hdr { background:var(--id-bg); border-bottom:2px solid var(--cmp-hematita-600); padding:20px; display:flex; flex-direction:column; align-items:center; gap:12px; }
   .login-title { font-size:0.929rem; font-weight:600; color:#fff; text-align:center; }
@@ -1165,6 +1166,34 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
 }
 
 /* ── LOGIN ────────────────────────────────────────────── */
+function PortScene(){
+  return (
+    <svg className="login-scene" viewBox="0 0 1200 320" fill="none" stroke="#8fb6f0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M0 236 H1200" strokeWidth="1.5" opacity="0.7"/>
+      <path d="M60 250 q20 -7 40 0 t40 0 t40 0" opacity="0.5"/>
+      <path d="M300 258 q20 -7 40 0 t40 0 t40 0 t40 0" opacity="0.5"/>
+      <path d="M900 252 q20 -7 40 0 t40 0 t40 0 t40 0" opacity="0.5"/>
+      <path d="M40 236 L150 196 L260 236 Z"/>
+      <path d="M95 216 L205 216" opacity="0.6"/>
+      <path d="M150 206 L372 150"/>
+      <path d="M150 214 L372 158" opacity="0.6"/>
+      <path d="M376 104 L376 236 M392 104 L392 236 M376 104 L392 104"/>
+      <path d="M376 140 L392 122 M376 172 L392 154 M376 204 L392 186"/>
+      <path d="M382 108 L640 176 M382 120 L640 188"/>
+      <path d="M640 176 L640 200"/>
+      <circle cx="639" cy="208" r="1.6" fill="#8fb6f0" stroke="none"/>
+      <circle cx="644" cy="216" r="1.4" fill="#8fb6f0" stroke="none"/>
+      <circle cx="635" cy="222" r="1.4" fill="#8fb6f0" stroke="none"/>
+      <path d="M470 236 Q460 210 500 208 L860 208 Q892 208 890 224 L880 236 Z"/>
+      <path d="M508 208 L508 198 L690 198 L690 208 M560 198 L560 190 L640 190 L640 198"/>
+      <rect x="600" y="200" width="70" height="8"/>
+      <path d="M792 208 L792 168 L858 168 L858 208 M800 168 L800 156 L840 156 L840 168"/>
+      <path d="M806 178 L852 178 M806 190 L852 190" opacity="0.6"/>
+      <path d="M540 198 L540 170 M528 176 L552 176"/>
+    </svg>
+  );
+}
+
 function Login({ onDemo }){
   const [email,setEmail]=useState('');
   const [pass,setPass]=useState('');
@@ -1182,6 +1211,7 @@ function Login({ onDemo }){
 
   return (
     <div className="login-bg">
+      <PortScene/>
       <div className="login-card">
         <div className="login-hdr">
           <svg viewBox="0 0 220 60" style={{height:'46px'}}>
