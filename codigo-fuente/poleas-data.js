@@ -1225,8 +1225,7 @@ window.POLEAS_DATA = {
          "status": "none",
          "medicion": "11-02-2026",
          "medOM": "11019944",
-         "medEstado": "No se detecta",
-         "dobleAro": true
+         "medEstado": "No se detecta"
       },
       {
          "num": 9,
