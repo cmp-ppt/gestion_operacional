@@ -1364,7 +1364,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',cursor:filtered.length===0?'not-allowed':'pointer',opacity:filtered.length===0?0.5:1}}>
           📧 Enviar correo
         </button>
-        <span style={{marginLeft:'auto',fontSize:'0.714rem',color:'var(--op-text-3)'}}>
+        <span style={{marginLeft:'auto',order:9,fontSize:'0.714rem',color:'var(--op-text-3)'}}>
           {filtered.length} hallazgo{filtered.length!==1?'s':''}{filtroProc!=='todos'?` · ${PROC_META[filtroProc]?.label}`:''}
         </span>
         {canEdit && <span style={{flexShrink:0,width:1,height:18,background:'var(--op-border-subtle)',margin:'0 2px'}}></span>}
@@ -2022,7 +2022,7 @@ function App({ user, onLogout }){
 
       <div className="main">
         {(hasPoleas && hasPolines) && (
-          <div style={{display:'flex',justifyContent:'flex-end',marginBottom:10}}>
+          <div style={{display:'flex',justifyContent:'flex-start',marginBottom:10}}>
             <div className="vista-toggle">
               <button className={`vista-btn${vista==='poleas'?' active':''}`} onClick={()=>setVista('poleas')}>⚙ Poleas <span className="vista-count">{correa.poleas.length}</span></button>
               <button className={`vista-btn${vista==='polines'?' active':''}`} onClick={()=>setVista('polines')}>▦ Polines <span className="vista-count">{polHallazgos.length}</span></button>
