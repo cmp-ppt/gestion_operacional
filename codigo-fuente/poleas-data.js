@@ -309,80 +309,80 @@ window.POLEAS_DATA = {
    "nombre": "Correa 5",
    "tbo": "28-08-2034",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ (762x965mm)",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA (508x965mm)",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA (508x965mm)",
-     "fecha": "08-08-2013",
-     "dias": 4638,
-     "orden": "50018166",
-     "aviso": "10966017",
-     "desc": "Cambio de polea contrapeso CT-05",
-     "status": "crit"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA (508x965mm)",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA (508x965mm)",
-     "fecha": "23-08-2010",
-     "dias": 5748,
-     "orden": "10134154",
-     "aviso": "10357337",
-     "desc": "Cambio polea de cola CT-05",
-     "status": "crit"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ (762x965mm)",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA (508x965mm)",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA (508x965mm)",
+         "fecha": "08-08-2013",
+         "dias": 4638,
+         "orden": "50018166",
+         "aviso": "10966017",
+         "desc": "Cambio de polea contrapeso CT-05",
+         "status": "crit"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA (508x965mm)",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 5,
+         "tipo": "COLA (508x965mm)",
+         "fecha": "23-08-2010",
+         "dias": 5748,
+         "orden": "10134154",
+         "aviso": "10357337",
+         "desc": "Cambio polea de cola CT-05",
+         "status": "crit"
+      }
    ],
    "diag": [
-    [
-     80,
-     50
-    ],
-    [
-     170,
-     110
-    ],
-    [
-     280,
-     130
-    ],
-    [
-     390,
-     110
-    ],
-    [
-     550,
-     50
-    ]
+      [
+         55,
+         68
+      ],
+      [
+         400,
+         88
+      ],
+      [
+         435,
+         120
+      ],
+      [
+         470,
+         85
+      ],
+      [
+         585,
+         62
+      ]
    ]
-  },
+},
   "FS23235": {
    "nombre": "Apilador Magnetita",
    "tbo": "25-05-2027",
