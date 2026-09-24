@@ -312,7 +312,7 @@ async function dbLoadAll(){
     sb.from('tbo_overrides').select('*'),
     sb.from('audit_log').select('*').order('ts',{ascending:false}).limit(500),
   ]);
-  const overrides={};
+  if(ov.error||tb.error||au.error) throw (ov.error||tb.error||au.error); const overrides={};
   (ov.data||[]).forEach(r=>{ overrides[okey(r.proc,r.tag,r.num)]={fecha:r.fecha,dias:r.fecha?diasDesde(r.fecha):null,orden:r.orden,aviso:r.aviso,desc:r.descripcion,status:r.fecha?'crit':'none'}; });
   const tbo={};
   (tb.data||[]).forEach(r=>{ tbo[tkey(r.proc,r.tag)]=r.fecha; });
@@ -693,7 +693,7 @@ const pkeyId = (h)=> h.id;
 
 async function dbLoadPolines(){
   if(!LIVE){ return JSON.parse(localStorage.getItem(LS_POL)||'[]'); }
-  const { data } = await sb.from('polines_hallazgos').select('*').order('created_at',{ascending:false});
+  const { data, error } = await sb.from('polines_hallazgos').select('*').order('created_at',{ascending:false}); if(error) throw error;
   return (data||[]).map(r=>({ id:'db'+r.id, proc:canonProc(r.tag, r.proc), tag:r.tag, fecha:r.fecha, npolin:r.npolin, ident:r.ident, pos:r.pos, cond:r.cond, accion:r.accion, prog:r.prog, crit:r.crit, aviso:r.aviso, estCond:r.est_cond, obs:r.obs, _added:true }));
 }
 async function dbAddPolin(h,user){
