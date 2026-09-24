@@ -41,9 +41,9 @@
 
   /* PROCESS + TAB SELECTOR */
   .selbar { background:var(--op-surface-1); border-bottom:1px solid var(--op-border-subtle); padding:8px 20px; display:flex; align-items:center; gap:16px; flex-shrink:0; flex-wrap:wrap; }
-  .sel-label { font-size:0.714rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--op-text-3); }
+  .sel-label { font-size:0.85rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--op-text-2); }
   .proc-btn { display:inline-flex; align-items:center; gap:7px; padding:5px 14px; border:1px solid var(--op-border-subtle); background:var(--op-surface-2); border-radius:var(--radius-1); font-family:var(--font-sans); font-size:var(--fs-nav); font-weight:500; color:var(--op-text-2); cursor:pointer; transition:all .12s; }
-  .proc-btn-lg { padding:9px 20px; gap:10px; font-size:1rem; font-weight:600; }
+  .proc-btn-lg { padding:12px 26px; gap:12px; font-size:1.12rem; font-weight:600; }
   .proc-btn:hover { border-color:var(--op-border-strong); color:var(--op-text-1); }
   .proc-btn.active { background:var(--cmp-blue-700); border-color:var(--cmp-blue-500); color:#fff; font-weight:600; }
   .proc-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
@@ -893,7 +893,7 @@ function PolinesView({ proc, tag, beltNombre, hallazgos, canEdit, onAdd, onImpor
 
   return (
     <>
-      <div className="kpi-strip" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+      <div className="kpi-strip" style={{gridTemplateColumns:'repeat(4,1fr)',maxWidth:1200}}>
         <div className="kpi"><div className="kpi-lbl"><Icon name="roller" size={12}/>Hallazgos Polines</div><div className="kpi-val">{total}</div><div className="kpi-sub">registrados en {beltNombre}</div></div>
         <div className="kpi" style={{borderTopColor:activos>0?'var(--alarm-major)':'var(--op-border-subtle)'}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Activos (abiertos)</div><div className="kpi-val" style={{color:activos>0?'var(--alarm-major)':'var(--op-text-1)'}}>{activos}</div><div className="kpi-sub">{total-activos} cerrados / no activos</div></div>
         <div className="kpi" style={{borderTopColor:criticos>0?'var(--alarm-critical)':'var(--op-border-subtle)',background:criticos>0?'rgba(217,64,64,0.06)':undefined}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Criticidad Alta+</div><div className="kpi-val" style={{color:criticos>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{criticos>0?'▲ ':''}{criticos}</div><div className="kpi-sub">Alta · Muy Alta · Mant. Mayor</div></div>
@@ -1167,7 +1167,7 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
 }
 
 /* ── LOGIN ────────────────────────────────────────────── */
-function Icon({ name, size=14 }){
+function Icon({ name, size=14, style }){
   const P = {
     alert:  <><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4.5M12 17.5h.01"/></>,
     chart:  <><path d="M4 20V11M10 20V4M16 20v-6M21 20H3"/></>,
@@ -1177,8 +1177,9 @@ function Icon({ name, size=14 }){
     clock:  <><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.4 2"/></>,
     check:  <><circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.8 2.8L16 9"/></>,
     belt:   <><circle cx="6.5" cy="13" r="3.2"/><circle cx="17.5" cy="13" r="3.2"/><path d="M6.5 9.8h11M6.5 16.2h11"/></>,
+    conveyor: <><circle cx="5.5" cy="14" r="2.3"/><circle cx="18.5" cy="14" r="2.3"/><path d="M5.5 11.7h13M5.5 16.3h13"/><path d="M8 11.7l1.3-1.1 1.3 1.1 1.4-1.1 1.3 1.1"/></>,
   };
-  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,verticalAlign:'-2px',marginRight:5}}>{P[name]}</svg>;
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,verticalAlign:'-2px',marginRight:5,...style}}>{P[name]}</svg>;
 }
 
 function PortScene(){
@@ -2014,7 +2015,7 @@ function App({ user, onLogout }){
         <span className="sel-label">Proceso</span>
         {Object.keys(PROC_META).map(p=>(
           <button key={p} className={`proc-btn proc-btn-lg${proc===p?' active':''}`} onClick={()=>selectProc(p)}>
-            <ProcGlyph proc={p} size={19} color={proc===p?'#fff':undefined}/>{PROC_META[p].label}
+            <ProcGlyph proc={p} size={24} color={proc===p?'#fff':undefined}/>{PROC_META[p].label}
           </button>
         ))}
         <span style={{flexShrink:0,width:1,height:18,background:'var(--op-border-subtle)',margin:'0 4px'}}></span>
@@ -2043,7 +2044,7 @@ function App({ user, onLogout }){
                 const worst=beltEstadoPeor(b.tag);
                 return (
                   <button key={b.tag} className={`tab${tag===b.tag?' active':''}`} onClick={()=>setTag(b.tag)}>
-                    <span className="tab-alarm" style={{background:worst?'var(--alarm-critical)':'var(--status-running)'}}></span>
+                    <Icon name="conveyor" size={14} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
                     {b.nombre}{beltBadge(b.tag)}
                   </button>
                 );
@@ -2056,7 +2057,7 @@ function App({ user, onLogout }){
                 return (
                   <button key={b.tag} className={`tab${tag===b.tag?' active':''}`} onClick={()=>setTag(b.tag)}
                     style={tag===b.tag?{}:{color:'var(--status-running-light)'}}>
-                    <span className="tab-alarm" style={{background:worst?'var(--alarm-critical)':'var(--status-running)'}}></span>
+                    <Icon name="conveyor" size={14} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
                     {b.nombre}{beltBadge(b.tag)}
                   </button>
                 );
@@ -2068,7 +2069,7 @@ function App({ user, onLogout }){
             const worst=beltEstadoPeor(b.tag);
             return (
               <button key={b.tag} className={`tab${tag===b.tag?' active':''}`} onClick={()=>setTag(b.tag)}>
-                <span className="tab-alarm" style={{background:worst?'var(--alarm-critical)':'var(--status-running)'}}></span>
+                <Icon name="conveyor" size={14} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
                 {b.nombre}{beltBadge(b.tag)}
               </button>
             );
@@ -2087,9 +2088,9 @@ function App({ user, onLogout }){
         )}
 
         {vista==='poleas' && hasPoleas && (<>
-        <div className="kpi-strip">
-          <div className="kpi"><div className="kpi-lbl"><Icon name="gear" size={12}/>Total Poleas</div><div className="kpi-val">{total}</div><div className="kpi-sub">en {beltInfo.nombre}</div></div>
-          <div className="kpi"><div className="kpi-lbl"><Icon name="check" size={12}/>Con Registro</div><div className="kpi-val">{conReg}<span className="kpi-unit">/ {total}</span></div><div className="kpi-sub">{sinReg} sin fecha de cambio</div></div>
+        <div className="kpi-strip" style={{maxWidth:1200}}>
+          <div className="kpi" style={{borderTopColor:'var(--cmp-blue-500)'}}><div className="kpi-lbl"><Icon name="gear" size={12}/>Total Poleas</div><div className="kpi-val">{total}</div><div className="kpi-sub">en {beltInfo.nombre}</div></div>
+          <div className="kpi" style={{borderTopColor:'var(--status-running)'}}><div className="kpi-lbl"><Icon name="check" size={12}/>Con Registro</div><div className="kpi-val">{conReg}<span className="kpi-unit">/ {total}</span></div><div className="kpi-sub">{sinReg} sin fecha de cambio</div></div>
           <div className="kpi" style={{borderTopColor: alarmCount>0?'var(--alarm-critical)':'var(--op-border-subtle)',background:alarmCount>0?'rgba(217,64,64,0.06)':undefined}}>
             <div className="kpi-lbl"><Icon name="alert" size={12}/>Sin Cambio</div>
             <div className="kpi-val" style={{color:alarmCount>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{alarmCount>0?'▲ ':''}{alarmCount}</div>
