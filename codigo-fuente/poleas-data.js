@@ -916,80 +916,80 @@ window.POLEAS_DATA = {
    "nombre": "Correa 6 (CT-06)",
    "tbo": "01-01-2024",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 3,
-     "tipo": "TENSORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 5,
-     "tipo": "COLA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "TENSORA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 4,
+         "tipo": "DEFLECTORA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 5,
+         "tipo": "COLA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      }
    ],
    "diag": [
-    [
-     50,
-     75
-    ],
-    [
-     180,
-     75
-    ],
-    [
-     280,
-     75
-    ],
-    [
-     410,
-     75
-    ],
-    [
-     550,
-     75
-    ]
+      [
+         585,
+         68
+      ],
+      [
+         240,
+         88
+      ],
+      [
+         205,
+         120
+      ],
+      [
+         170,
+         85
+      ],
+      [
+         55,
+         62
+      ]
    ]
-  },
+},
   "FS23450": {
    "nombre": "Correa 7 (CT-07)",
    "tbo": "01-01-2028",
