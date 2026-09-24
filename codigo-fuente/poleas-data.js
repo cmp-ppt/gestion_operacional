@@ -685,122 +685,136 @@ window.POLEAS_DATA = {
    "nombre": "Correa 14",
    "tbo": "09-12-2026",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 2,
-     "tipo": "DEFLECTORA",
-     "fecha": "18-10-2022",
-     "dias": 1324,
-     "orden": "31108569",
-     "aviso": "14048898",
-     "desc": "Armado de polea CT-14 / VCPM4422",
-     "status": "crit"
-    },
-    {
-     "num": 3,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 4,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 5,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 6,
-     "tipo": "DEFLECTORA",
-     "fecha": "25-01-2023",
-     "dias": 1225,
-     "orden": "10836737",
-     "aviso": "13925543",
-     "desc": "Cambio polea deflectora CT-14 / VCPM0423",
-     "status": "crit"
-    },
-    {
-     "num": 7,
-     "tipo": "DEFLECTORA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    },
-    {
-     "num": 8,
-     "tipo": "COLA",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none"
-    }
+      {
+         "num": 1,
+         "tipo": "TENSIÓN",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "TENSIÓN",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 3,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 4,
+         "tipo": "EXTRICCIÓN",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 5,
+         "tipo": "DESVÍO",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 6,
+         "tipo": "TRIPPER",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 7,
+         "tipo": "TRIPPER",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 8,
+         "tipo": "ANTILEVANTAMIENTO",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 9,
+         "tipo": "COLA",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      }
    ],
    "diag": [
-    [
-     45,
-     75
-    ],
-    [
-     120,
-     75
-    ],
-    [
-     195,
-     75
-    ],
-    [
-     270,
-     75
-    ],
-    [
-     345,
-     75
-    ],
-    [
-     420,
-     75
-    ],
-    [
-     495,
-     75
-    ],
-    [
-     570,
-     75
-    ]
+      [
+         21,
+         182
+      ],
+      [
+         68,
+         182
+      ],
+      [
+         117,
+         130
+      ],
+      [
+         135,
+         168
+      ],
+      [
+         203,
+         168
+      ],
+      [
+         256,
+         65
+      ],
+      [
+         295,
+         162
+      ],
+      [
+         504,
+         145
+      ],
+      [
+         649,
+         183
+      ]
    ]
-  },
+},
   "FS24235": {
    "nombre": "Apilador CNN",
    "tbo": "24-08-2029",
