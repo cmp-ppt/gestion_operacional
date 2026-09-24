@@ -805,38 +805,38 @@ window.POLEAS_DATA = {
    "nombre": "Apilador CNN",
    "tbo": "24-08-2029",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": "26-08-2024",
-     "dias": null,
-     "aviso": "15129499",
-     "desc": "Cambio polea motriz CT-20",
-     "status": "none",
-     "orden": "10960496"
-    },
-    {
-     "num": 2,
-     "tipo": "TENSORA",
-     "fecha": "20-07-2024",
-     "dias": null,
-     "aviso": "14835418",
-     "desc": "Cambio de polea apilador CT-20",
-     "status": "none",
-     "orden": "10931887"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ (Ø630)",
+         "fecha": "26-08-2024",
+         "dias": null,
+         "aviso": "15129499",
+         "desc": "Cambio polea motriz CT-20",
+         "status": "none",
+         "orden": "10960496"
+      },
+      {
+         "num": 2,
+         "tipo": "VERTIDO (Ø630)",
+         "fecha": "20-07-2024",
+         "dias": null,
+         "aviso": "14835418",
+         "desc": "Cambio de polea apilador CT-20",
+         "status": "none",
+         "orden": "10931887"
+      }
    ],
    "diag": [
-    [
-     100,
-     75
-    ],
-    [
-     480,
-     75
-    ]
+      [
+         555,
+         78
+      ],
+      [
+         75,
+         92
+      ]
    ]
-  },
+},
   "FS24215": {
    "nombre": "Correa 15",
    "tbo": "14-11-2034",
