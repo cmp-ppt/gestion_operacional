@@ -893,6 +893,7 @@ function PolinesView({ proc, tag, beltNombre, hallazgos, canEdit, onAdd, onImpor
 
   return (
     <>
+      <ViewBanner icon="roller" title={beltNombre+' — Polines'} subtitle={total+' hallazgos · '+activos+' activos'} stats={[{val:criticos,lbl:'Críticos',col:criticos>0?'var(--alarm-critical)':undefined},{val:ultima,lbl:'Últ. inspección'}]} tone={criticos>0?'alert':(activos>0?'neutral':'ok')}/>
       <div className="kpi-strip" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
         <div className="kpi"><div className="kpi-lbl"><Icon name="roller" size={12}/>Hallazgos Polines</div><div className="kpi-val">{total}</div><div className="kpi-sub">registrados en {beltNombre}</div></div>
         <div className="kpi" style={{borderTopColor:activos>0?'var(--alarm-major)':'var(--op-border-subtle)'}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Activos (abiertos)</div><div className="kpi-val" style={{color:activos>0?'var(--alarm-major)':'var(--op-text-1)'}}>{activos}</div><div className="kpi-sub">{total-activos} cerrados / no activos</div></div>
@@ -1167,6 +1168,23 @@ function ImportModal({ existing, polAdds, onImport, onClose, busy }){
 }
 
 /* ── LOGIN ────────────────────────────────────────────── */
+function ViewBanner({ icon, title, subtitle, stats=[], tone, style }){
+  const tones={ neutral:'var(--cmp-blue-500)', alert:'var(--alarm-critical)', ok:'var(--status-running)', major:'var(--alarm-major)' };
+  const ac=tones[tone]||tones.neutral;
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:14,padding:'11px 18px',marginBottom:14,borderRadius:'var(--radius-2)',background:'linear-gradient(90deg, '+ac+'20, transparent 62%)',border:'1px solid var(--op-border-subtle)',borderLeft:'4px solid '+ac,...style}}>
+      <div style={{color:ac,flexShrink:0,display:'flex'}}><Icon name={icon} size={26}/></div>
+      <div style={{minWidth:0}}>
+        <div style={{fontSize:'1.05rem',fontWeight:600,color:'var(--op-text-1)',lineHeight:1.15}}>{title}</div>
+        {subtitle&&<div style={{fontSize:'0.78rem',color:'var(--op-text-3)',marginTop:2}}>{subtitle}</div>}
+      </div>
+      <div style={{marginLeft:'auto',display:'flex',gap:22,alignItems:'center',flexShrink:0}}>
+        {stats.map((s,i)=>(<div key={i} style={{textAlign:'right'}}><div style={{fontSize:'1.2rem',fontWeight:700,lineHeight:1,color:s.col||'var(--op-text-1)'}}>{s.val}</div><div style={{fontSize:'0.66rem',textTransform:'uppercase',letterSpacing:'.05em',color:'var(--op-text-3)',marginTop:3}}>{s.lbl}</div></div>))}
+      </div>
+    </div>
+  );
+}
+
 function Icon({ name, size=14 }){
   const P = {
     alert:  <><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4.5M12 17.5h.01"/></>,
@@ -1399,6 +1417,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
   return (
     <div style={{flex:1,overflow:'auto',display:'flex',flexDirection:'column',minHeight:0}}>
 
+      <ViewBanner icon="alert" title="Críticos Polines activos" subtitle="Puerto Punta Totoralillo · CMP" stats={[{val:total,lbl:'Críticos',col:total>0?'var(--alarm-critical)':undefined},{val:heatRows.length,lbl:'Correas afectadas'}]} tone={total>0?'alert':'ok'} style={{margin:'12px 20px 0'}}/>
       {/* Toolbar exportar */}
       <div style={{padding:'7px 20px',borderBottom:'1px solid var(--op-border-subtle)',display:'flex',alignItems:'center',gap:8,flexShrink:0,background:'var(--op-surface-1)'}}>
         <span style={{fontSize:'0.786rem',fontWeight:600,color:'var(--op-text-2)',marginRight:4}}>Exportar:</span>
@@ -2087,6 +2106,7 @@ function App({ user, onLogout }){
         )}
 
         {vista==='poleas' && hasPoleas && (<>
+        <ViewBanner icon="gear" title={beltInfo.nombre+' — Poleas'} subtitle={'TAG '+tag+' · '+PROC_META[proc].label} stats={[{val:total,lbl:'Poleas'},{val:alarmCount,lbl:'Sin cambio',col:alarmCount>0?'var(--alarm-critical)':undefined}]} tone={alarmCount>0?'alert':'ok'}/>
         <div className="kpi-strip">
           <div className="kpi"><div className="kpi-lbl"><Icon name="gear" size={12}/>Total Poleas</div><div className="kpi-val">{total}</div><div className="kpi-sub">en {beltInfo.nombre}</div></div>
           <div className="kpi"><div className="kpi-lbl"><Icon name="check" size={12}/>Con Registro</div><div className="kpi-val">{conReg}<span className="kpi-unit">/ {total}</span></div><div className="kpi-sub">{sinReg} sin fecha de cambio</div></div>
