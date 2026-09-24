@@ -1125,7 +1125,7 @@ window.POLEAS_DATA = {
    "poleas": [
       {
          "num": 1,
-         "tipo": "MOTRIZ",
+         "tipo": "COLA",
          "fecha": null,
          "dias": null,
          "orden": null,
@@ -1138,7 +1138,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 2,
-         "tipo": "DEFLECTORA",
+         "tipo": "POST CONTRAPESO",
          "fecha": "04-11-2021",
          "dias": 1672,
          "orden": "10775433",
@@ -1151,7 +1151,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 3,
-         "tipo": "ANTE CONTRAPESO",
+         "tipo": "DEFLECTORA (ante contrapeso)",
          "fecha": null,
          "dias": null,
          "orden": null,
@@ -1177,7 +1177,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 5,
-         "tipo": "POST CONTRAPESO",
+         "tipo": "DEFLECTORA",
          "fecha": "30-07-2024",
          "dias": 673,
          "orden": "10957520",
@@ -1190,7 +1190,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 6,
-         "tipo": "COLA",
+         "tipo": "ENVOLVENTE",
          "fecha": "19-11-2022",
          "dias": 1292,
          "orden": "10863320",
@@ -1203,7 +1203,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 7,
-         "tipo": "ENVOLVENTE",
+         "tipo": "MOTRIZ",
          "fecha": "15-10-2021",
          "dias": 1692,
          "orden": "10796885",
@@ -1216,7 +1216,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 8,
-         "tipo": "DEFLECTORA",
+         "tipo": "ENVOLVENTE (ante motriz)",
          "fecha": null,
          "dias": null,
          "orden": null,
