@@ -2045,7 +2045,7 @@ function App({ user, onLogout }){
               })}
             </div>
             <div className="tabs-row feeder-row">
-              <span className="tabs-row-label">Feeders</span>
+              <span className="tabs-row-label" style={{display:'inline-flex',alignItems:'center',gap:5}}><ProcGlyph proc="EMBARQUE" size={13}/>Feeders</span>
               {feeders.map(b=>{
                 const worst=beltEstadoPeor(b.tag);
                 return (
