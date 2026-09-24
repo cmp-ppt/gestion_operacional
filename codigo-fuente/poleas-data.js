@@ -1030,95 +1030,80 @@ window.POLEAS_DATA = {
    "nombre": "Correa 8 (CT-08)",
    "tbo": "01-03-2028",
    "poleas": [
-    {
-     "num": 1,
-     "tipo": "MOTRIZ",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "01-04-2026",
-     "medOM": "11035773",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 2,
-     "tipo": "COLA",
-     "fecha": "05-02-2023",
-     "dias": 1214,
-     "orden": "31132348",
-     "aviso": "13998001",
-     "desc": "Cambio de polea cola CT-08",
-     "status": "crit",
-     "medicion": "01-04-2026",
-     "medOM": "11035773",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 3,
-     "tipo": "CONTRAPESO",
-     "fecha": null,
-     "dias": null,
-     "orden": null,
-     "aviso": null,
-     "desc": "Sin cambios registrados",
-     "status": "none",
-     "medicion": "01-04-2026",
-     "medOM": "11035773",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 4,
-     "tipo": "POST CONTRAPESO",
-     "fecha": "06-02-2023",
-     "dias": 1213,
-     "orden": "31123763",
-     "aviso": "13998002",
-     "desc": "Cambio de polea posterior CP CT-08",
-     "status": "crit",
-     "medicion": "01-04-2026",
-     "medOM": "11035773",
-     "medEstado": "No se detecta"
-    },
-    {
-     "num": 5,
-     "tipo": "ANTE CONTRAPESO",
-     "fecha": "07-02-2023",
-     "dias": 1212,
-     "orden": "31123730",
-     "aviso": "13998003",
-     "desc": "Cambio de polea anterior a contrapeso CT-08",
-     "status": "crit",
-     "medicion": "01-04-2026",
-     "medOM": "11035773",
-     "medEstado": "No se detecta"
-    }
+      {
+         "num": 1,
+         "tipo": "MOTRIZ",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 2,
+         "tipo": "ANTE CONTRAPESO",
+         "fecha": "07-02-2023",
+         "dias": 1325,
+         "orden": "31123730",
+         "aviso": "13998003",
+         "desc": "Cambio de polea anterior a contrapeso CT-08",
+         "status": "crit"
+      },
+      {
+         "num": 3,
+         "tipo": "CONTRAPESO",
+         "fecha": null,
+         "dias": null,
+         "orden": null,
+         "aviso": null,
+         "desc": "Sin cambios registrados",
+         "status": "none"
+      },
+      {
+         "num": 4,
+         "tipo": "POST CONTRAPESO",
+         "fecha": "06-02-2023",
+         "dias": 1326,
+         "orden": "31123763",
+         "aviso": "13998002",
+         "desc": "Cambio de polea posterior CP CT-08",
+         "status": "crit"
+      },
+      {
+         "num": 5,
+         "tipo": "COLA",
+         "fecha": "05-02-2023",
+         "dias": 1327,
+         "orden": "31132348",
+         "aviso": "13998001",
+         "desc": "Cambio de polea cola CT-08",
+         "status": "crit"
+      }
    ],
    "diag": [
-    [
-     50,
-     75
-    ],
-    [
-     180,
-     75
-    ],
-    [
-     280,
-     75
-    ],
-    [
-     410,
-     75
-    ],
-    [
-     550,
-     75
-    ]
+      [
+         60,
+         70
+      ],
+      [
+         250,
+         92
+      ],
+      [
+         300,
+         138
+      ],
+      [
+         350,
+         92
+      ],
+      [
+         560,
+         68
+      ]
    ]
-  },
+},
   "FS23470": {
    "nombre": "Correa 9 (CT-09)",
    "tbo": "07-01-2029",
