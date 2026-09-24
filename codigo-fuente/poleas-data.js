@@ -697,7 +697,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 2,
-         "tipo": "TENSIÓN",
+         "tipo": "EXTRICCIÓN",
          "fecha": null,
          "dias": null,
          "orden": null,
@@ -717,7 +717,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 4,
-         "tipo": "EXTRICCIÓN",
+         "tipo": "DESVÍO",
          "fecha": null,
          "dias": null,
          "orden": null,
@@ -727,7 +727,7 @@ window.POLEAS_DATA = {
       },
       {
          "num": 5,
-         "tipo": "DESVÍO",
+         "tipo": "TRIPPER",
          "fecha": null,
          "dias": null,
          "orden": null,
@@ -757,16 +757,6 @@ window.POLEAS_DATA = {
       },
       {
          "num": 8,
-         "tipo": "ANTILEVANTAMIENTO",
-         "fecha": null,
-         "dias": null,
-         "orden": null,
-         "aviso": null,
-         "desc": "Sin cambios registrados",
-         "status": "none"
-      },
-      {
-         "num": 9,
          "tipo": "COLA",
          "fecha": null,
          "dias": null,
@@ -778,39 +768,35 @@ window.POLEAS_DATA = {
    ],
    "diag": [
       [
-         21,
-         182
+         31,
+         178
       ],
       [
-         68,
-         182
+         101,
+         167
       ],
       [
-         117,
-         130
+         82,
+         128
       ],
       [
-         135,
-         168
+         171,
+         167
       ],
       [
-         203,
-         168
+         266,
+         161
       ],
       [
-         256,
-         65
+         268,
+         103
       ],
       [
-         295,
-         162
+         226,
+         61
       ],
       [
-         504,
-         145
-      ],
-      [
-         649,
+         633,
          183
       ]
    ]
