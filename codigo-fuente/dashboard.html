@@ -893,10 +893,10 @@ function PolinesView({ proc, tag, beltNombre, hallazgos, canEdit, onAdd, onImpor
   return (
     <>
       <div className="kpi-strip" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
-        <div className="kpi"><div className="kpi-lbl">Hallazgos Polines</div><div className="kpi-val">{total}</div><div className="kpi-sub">registrados en {beltNombre}</div></div>
-        <div className="kpi" style={{borderTopColor:activos>0?'var(--alarm-major)':'var(--op-border-subtle)'}}><div className="kpi-lbl">Activos (abiertos)</div><div className="kpi-val" style={{color:activos>0?'var(--alarm-major)':'var(--op-text-1)'}}>{activos}</div><div className="kpi-sub">{total-activos} cerrados / no activos</div></div>
-        <div className="kpi" style={{borderTopColor:criticos>0?'var(--alarm-critical)':'var(--op-border-subtle)'}}><div className="kpi-lbl">Criticidad Alta+</div><div className="kpi-val" style={{color:criticos>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{criticos>0?'▲ ':''}{criticos}</div><div className="kpi-sub">Alta · Muy Alta · Mant. Mayor</div></div>
-        <div className="kpi"><div className="kpi-lbl">Última Inspección</div><div className="kpi-val" style={{fontSize:'1.3rem',fontVariantNumeric:'tabular-nums'}}>{ultima}</div><div className="kpi-sub">{fechas.length} inspecciones registradas</div></div>
+        <div className="kpi"><div className="kpi-lbl"><Icon name="roller" size={12}/>Hallazgos Polines</div><div className="kpi-val">{total}</div><div className="kpi-sub">registrados en {beltNombre}</div></div>
+        <div className="kpi" style={{borderTopColor:activos>0?'var(--alarm-major)':'var(--op-border-subtle)'}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Activos (abiertos)</div><div className="kpi-val" style={{color:activos>0?'var(--alarm-major)':'var(--op-text-1)'}}>{activos}</div><div className="kpi-sub">{total-activos} cerrados / no activos</div></div>
+        <div className="kpi" style={{borderTopColor:criticos>0?'var(--alarm-critical)':'var(--op-border-subtle)'}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Criticidad Alta+</div><div className="kpi-val" style={{color:criticos>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{criticos>0?'▲ ':''}{criticos}</div><div className="kpi-sub">Alta · Muy Alta · Mant. Mayor</div></div>
+        <div className="kpi"><div className="kpi-lbl"><Icon name="calendar" size={12}/>Última Inspección</div><div className="kpi-val" style={{fontSize:'1.3rem',fontVariantNumeric:'tabular-nums'}}>{ultima}</div><div className="kpi-sub">{fechas.length} inspecciones registradas</div></div>
       </div>
 
       <div className="belt-hdr">
@@ -1170,8 +1170,12 @@ function Icon({ name, size=14 }){
   const P = {
     alert:  <><path d="M12 3L2 20h20L12 3z"/><path d="M12 10v4.5M12 17.5h.01"/></>,
     chart:  <><path d="M4 20V11M10 20V4M16 20v-6M21 20H3"/></>,
-    gear:   <><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></>,
+    gear:   <><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="3.6" r="1" fill="currentColor" stroke="none"/><circle cx="19.3" cy="7.8" r="1" fill="currentColor" stroke="none"/><circle cx="19.3" cy="16.2" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="20.4" r="1" fill="currentColor" stroke="none"/><circle cx="4.7" cy="16.2" r="1" fill="currentColor" stroke="none"/><circle cx="4.7" cy="7.8" r="1" fill="currentColor" stroke="none"/></>,
     roller: <><rect x="2.5" y="9" width="19" height="6" rx="3"/><path d="M7 9v6M17 9v6"/></>,
+    calendar: <><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></>,
+    clock:  <><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.4 2"/></>,
+    check:  <><circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.8 2.8L16 9"/></>,
+    belt:   <><circle cx="6.5" cy="13" r="3.2"/><circle cx="17.5" cy="13" r="3.2"/><path d="M6.5 9.8h11M6.5 16.2h11"/></>,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0,verticalAlign:'-2px',marginRight:5}}>{P[name]}</svg>;
 }
@@ -1428,7 +1432,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
       {/* KPI strip */}
       <div className="kpi-strip" style={{flexShrink:0}}>
         <div className="kpi" style={{borderTopColor:'var(--alarm-critical)'}}>
-          <div className="kpi-lbl">Críticos activos</div>
+          <div className="kpi-lbl"><Icon name="alert" size={12}/>Críticos activos</div>
           <div className="kpi-val" style={{color:total>0?'var(--alarm-critical-light)':'var(--op-text-1)'}}>{total}<span className="kpi-unit"> hall.</span></div>
           <div className="kpi-sub">Muy Alta · Alta · Media</div>
         </div>
@@ -1438,14 +1442,14 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
           const act=filtroProc===p;
           return (
             <div key={p} className="kpi" style={{borderTopColor:PROC_META[p].dot,cursor:'pointer',outline:act?`2px solid ${PROC_META[p].dot}`:''}} onClick={()=>setFiltroProc(act?'todos':p)}>
-              <div className="kpi-lbl">{PROC_META[p].label}</div>
+              <div className="kpi-lbl"><ProcGlyph proc={p} size={12}/>{PROC_META[p].label}</div>
               <div className="kpi-val" style={{color:n>0?'var(--op-text-1)':'var(--op-text-3)'}}>{n}<span className="kpi-unit"> hall.</span></div>
               <div className="kpi-sub">{correas} correa{correas!==1?'s':''} afectada{correas!==1?'s':''}</div>
             </div>
           );
         })}
         <div className="kpi">
-          <div className="kpi-lbl">Correas afectadas</div>
+          <div className="kpi-lbl"><Icon name="belt" size={12}/>Correas afectadas</div>
           <div className="kpi-val">{heatRows.length}</div>
           <div className="kpi-sub">con críticos activos</div>
         </div>
@@ -1690,37 +1694,37 @@ function EstadoPoleasView({ overrides, tboOverrides }){
       {/* KPI strip */}
       <div className="kpi-strip" style={{flexShrink:0,gridTemplateColumns:'repeat(7,1fr)'}}>
         <div className="kpi" style={{borderTopColor:'var(--cmp-blue-400)'}}>
-          <div className="kpi-lbl">Correas totales</div>
+          <div className="kpi-lbl"><Icon name="belt" size={12}/>Correas totales</div>
           <div className="kpi-val">{totCorreas}</div>
           <div className="kpi-sub">en {filtroProc==='todos'?'todos los procesos':PROC_META[filtroProc]?.label}</div>
         </div>
         <div className="kpi" style={{borderTopColor:'var(--cmp-blue-400)'}}>
-          <div className="kpi-lbl">Correas Feeder</div>
+          <div className="kpi-lbl"><ProcGlyph proc="EMBARQUE" size={12}/>Correas Feeder</div>
           <div className="kpi-val">{totFeeders}</div>
           <div className="kpi-sub">alimentadores</div>
         </div>
         <div className="kpi" style={{borderTopColor:tboVencidos>0?'var(--alarm-critical)':'var(--status-running)'}}>
-          <div className="kpi-lbl">TBO Correas vencidos</div>
+          <div className="kpi-lbl"><Icon name="clock" size={12}/>TBO Correas vencidos</div>
           <div className="kpi-val" style={{color:tboVencidos>0?'var(--alarm-critical-light)':'var(--op-text-1)'}}>{tboVencidos>0?'▲ ':''}{tboVencidos}</div>
           <div className="kpi-sub">requieren revisión</div>
         </div>
         <div className="kpi" style={{borderTopColor:'var(--alarm-warning-light)'}}>
-          <div className="kpi-lbl">TBO Correas próximos</div>
+          <div className="kpi-lbl"><Icon name="clock" size={12}/>TBO Correas próximos</div>
           <div className="kpi-val" style={{color:tboProximos>0?'var(--alarm-warning-light)':'var(--op-text-1)'}}>{tboProximos}</div>
           <div className="kpi-sub">≤ 90 días</div>
         </div>
         <div className="kpi" style={{borderTopColor:'var(--cmp-blue-400)'}}>
-          <div className="kpi-lbl">Poleas totales</div>
+          <div className="kpi-lbl"><Icon name="gear" size={12}/>Poleas totales</div>
           <div className="kpi-val">{totPoleas}</div>
           <div className="kpi-sub">en {totCorreas} correa{totCorreas!==1?'s':''}</div>
         </div>
         <div className="kpi" style={{borderTopColor:'var(--status-running)'}}>
-          <div className="kpi-lbl">Poleas con cambio</div>
+          <div className="kpi-lbl"><Icon name="check" size={12}/>Poleas con cambio</div>
           <div className="kpi-val" style={{color:'var(--status-running-light)'}}>{totConCambio}</div>
           <div className="kpi-sub">con fecha registrada</div>
         </div>
         <div className="kpi" style={{borderTopColor:totSinCambio>0?'var(--alarm-critical)':'var(--status-running)'}}>
-          <div className="kpi-lbl">Poleas sin cambio</div>
+          <div className="kpi-lbl"><Icon name="alert" size={12}/>Poleas sin cambio</div>
           <div className="kpi-val" style={{color:totSinCambio>0?'var(--alarm-critical-light)':'var(--op-text-1)'}}>{totSinCambio>0?'▲ ':''}{totSinCambio}</div>
           <div className="kpi-sub">nunca cambiadas</div>
         </div>
@@ -2083,14 +2087,14 @@ function App({ user, onLogout }){
 
         {vista==='poleas' && hasPoleas && (<>
         <div className="kpi-strip">
-          <div className="kpi"><div className="kpi-lbl">Total Poleas</div><div className="kpi-val">{total}</div><div className="kpi-sub">en {beltInfo.nombre}</div></div>
-          <div className="kpi"><div className="kpi-lbl">Con Registro</div><div className="kpi-val">{conReg}<span className="kpi-unit">/ {total}</span></div><div className="kpi-sub">{sinReg} sin fecha de cambio</div></div>
+          <div className="kpi"><div className="kpi-lbl"><Icon name="gear" size={12}/>Total Poleas</div><div className="kpi-val">{total}</div><div className="kpi-sub">en {beltInfo.nombre}</div></div>
+          <div className="kpi"><div className="kpi-lbl"><Icon name="check" size={12}/>Con Registro</div><div className="kpi-val">{conReg}<span className="kpi-unit">/ {total}</span></div><div className="kpi-sub">{sinReg} sin fecha de cambio</div></div>
           <div className="kpi" style={{borderTopColor: alarmCount>0?'var(--alarm-critical)':'var(--op-border-subtle)'}}>
-            <div className="kpi-lbl">Sin Cambio</div>
+            <div className="kpi-lbl"><Icon name="alert" size={12}/>Sin Cambio</div>
             <div className="kpi-val" style={{color:alarmCount>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{alarmCount>0?'▲ ':''}{alarmCount}</div>
             <div className="kpi-sub">poleas nunca cambiadas</div>
           </div>
-          <div className="kpi"><div className="kpi-lbl">Antigüedad Prom.</div><div className="kpi-val">{prom!=null?prom:'—'}<span className="kpi-unit">días</span></div><div className="kpi-sub">{prom!=null?fmtDias(prom):'sin datos'}{masAntigua!=null?` · máx ${fmtDias(masAntigua)}`:''}</div></div>
+          <div className="kpi"><div className="kpi-lbl"><Icon name="clock" size={12}/>Antigüedad Prom.</div><div className="kpi-val">{prom!=null?prom:'—'}<span className="kpi-unit">días</span></div><div className="kpi-sub">{prom!=null?fmtDias(prom):'sin datos'}{masAntigua!=null?` · máx ${fmtDias(masAntigua)}`:''}</div></div>
           <div className={`kpi-tbo${tboVenc?' venc':''}`}>
             <div className="kpi-tbo-top">
               <span className="kpi-tbo-lbl">⏱ TBO · Próxima Revisión</span>
