@@ -436,7 +436,7 @@ function Diagram({ correa, poleas }){
       {pos.map((pt,idx)=>{
         const p=poleas[idx]; if(!p) return null;
         const e=EST[p._estado];
-        const drive=/MOTRIZ/i.test(p.tipo||'');
+        const drive=/^MOTRIZ/i.test(p.tipo||'');
         const cx=pt.x, cy=pt.y;
         const dateY=cy-R-R*0.5, codeY=cy+R+R*0.95, diasY=codeY+codeF+3.5;
         const dtxt = p.fecha ? (showFull ? p.fecha : (p.fecha.split('-')[1]+'-'+(p.fecha.split('-')[2]||'').slice(2))) : '';
