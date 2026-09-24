@@ -698,12 +698,12 @@ window.POLEAS_DATA = {
       {
          "num": 2,
          "tipo": "EXTRICCIÓN",
-         "fecha": null,
-         "dias": null,
-         "orden": null,
-         "aviso": null,
-         "desc": "Sin cambios registrados",
-         "status": "none"
+         "fecha": "18-10-2022",
+         "dias": 1437,
+         "orden": "31108569",
+         "aviso": "14048898",
+         "desc": "Armado de polea CT-14 / VCPM4422",
+         "status": "crit"
       },
       {
          "num": 3,
@@ -738,12 +738,12 @@ window.POLEAS_DATA = {
       {
          "num": 6,
          "tipo": "TRIPPER",
-         "fecha": null,
-         "dias": null,
-         "orden": null,
-         "aviso": null,
-         "desc": "Sin cambios registrados",
-         "status": "none"
+         "fecha": "25-01-2023",
+         "dias": 1338,
+         "orden": "10836737",
+         "aviso": "13925543",
+         "desc": "Cambio polea deflectora CT-14 / VCPM0423",
+         "status": "crit"
       },
       {
          "num": 7,
