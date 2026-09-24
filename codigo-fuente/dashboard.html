@@ -896,7 +896,7 @@ function PolinesView({ proc, tag, beltNombre, hallazgos, canEdit, onAdd, onImpor
       <div className="kpi-strip" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
         <div className="kpi"><div className="kpi-lbl"><Icon name="roller" size={12}/>Hallazgos Polines</div><div className="kpi-val">{total}</div><div className="kpi-sub">registrados en {beltNombre}</div></div>
         <div className="kpi" style={{borderTopColor:activos>0?'var(--alarm-major)':'var(--op-border-subtle)'}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Activos (abiertos)</div><div className="kpi-val" style={{color:activos>0?'var(--alarm-major)':'var(--op-text-1)'}}>{activos}</div><div className="kpi-sub">{total-activos} cerrados / no activos</div></div>
-        <div className="kpi" style={{borderTopColor:criticos>0?'var(--alarm-critical)':'var(--op-border-subtle)'}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Criticidad Alta+</div><div className="kpi-val" style={{color:criticos>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{criticos>0?'▲ ':''}{criticos}</div><div className="kpi-sub">Alta · Muy Alta · Mant. Mayor</div></div>
+        <div className="kpi" style={{borderTopColor:criticos>0?'var(--alarm-critical)':'var(--op-border-subtle)',background:criticos>0?'rgba(217,64,64,0.06)':undefined}}><div className="kpi-lbl"><Icon name="alert" size={12}/>Criticidad Alta+</div><div className="kpi-val" style={{color:criticos>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{criticos>0?'▲ ':''}{criticos}</div><div className="kpi-sub">Alta · Muy Alta · Mant. Mayor</div></div>
         <div className="kpi"><div className="kpi-lbl"><Icon name="calendar" size={12}/>Última Inspección</div><div className="kpi-val" style={{fontSize:'1.3rem',fontVariantNumeric:'tabular-nums'}}>{ultima}</div><div className="kpi-sub">{fechas.length} inspecciones registradas</div></div>
       </div>
 
@@ -947,7 +947,7 @@ function PolinesView({ proc, tag, beltNombre, hallazgos, canEdit, onAdd, onImpor
               const cc=critOf(h.crit);
               const act=h.estCond==='Activo';
               return (
-                <tr key={h.id} style={h._added?{background:'rgba(38,77,140,0.10)'}:{}}>
+                <tr key={h.id} style={{borderLeft:'4px solid '+(act?cc.col:'var(--op-border-subtle)'),...(h._added?{background:'rgba(38,77,140,0.10)'}:{})}}>
                   <td className="audit-ts">{h.fecha||'—'}{h._added&&<span style={{color:'var(--cmp-blue-300)'}}> ✎</span>}</td>
                   <td style={{fontFamily:'var(--font-mono)',color:'var(--op-text-3)'}}>{h.npolin||'—'}</td>
                   <td style={{maxWidth:160}}>{h.ident||'—'}</td>
@@ -1432,7 +1432,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
 
       {/* KPI strip */}
       <div className="kpi-strip" style={{flexShrink:0}}>
-        <div className="kpi" style={{borderTopColor:'var(--alarm-critical)'}}>
+        <div className="kpi" style={{borderTopColor:'var(--alarm-critical)',background:'rgba(217,64,64,0.06)'}}>
           <div className="kpi-lbl"><Icon name="alert" size={12}/>Críticos activos</div>
           <div className="kpi-val" style={{color:total>0?'var(--alarm-critical-light)':'var(--op-text-1)'}}>{total}<span className="kpi-unit"> hall.</span></div>
           <div className="kpi-sub">Muy Alta · Alta · Media</div>
@@ -1482,7 +1482,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
                 const maxCrit=CRIT_COLS.find(c=>row.counts[c]);
                 return (
                   <tr key={row.proc+'|'+row.tag}>
-                    <td style={{padding:'4px 10px',fontSize:'0.857rem',fontWeight:500,color:'var(--op-text-1)',background:'var(--op-surface-1)',borderRadius:'var(--radius-1) 0 0 var(--radius-1)'}}>{row.nombre}</td>
+                    <td style={{padding:'4px 10px',borderLeft:'4px solid '+(maxCrit?critOf(maxCrit).col:'var(--op-border-subtle)'),fontSize:'0.857rem',fontWeight:500,color:'var(--op-text-1)',background:'var(--op-surface-1)',borderRadius:'var(--radius-1) 0 0 var(--radius-1)'}}>{row.nombre}</td>
                     <td style={{padding:'4px 8px',background:'var(--op-surface-1)'}}>
                       <span style={{display:'inline-flex',alignItems:'center',gap:4,fontSize:'0.714rem',color:'var(--op-text-3)'}}>
                         <span style={{width:6,height:6,borderRadius:'50%',background:PROC_META[row.proc]?.dot,display:'inline-block',flexShrink:0}}></span>
@@ -2090,7 +2090,7 @@ function App({ user, onLogout }){
         <div className="kpi-strip">
           <div className="kpi"><div className="kpi-lbl"><Icon name="gear" size={12}/>Total Poleas</div><div className="kpi-val">{total}</div><div className="kpi-sub">en {beltInfo.nombre}</div></div>
           <div className="kpi"><div className="kpi-lbl"><Icon name="check" size={12}/>Con Registro</div><div className="kpi-val">{conReg}<span className="kpi-unit">/ {total}</span></div><div className="kpi-sub">{sinReg} sin fecha de cambio</div></div>
-          <div className="kpi" style={{borderTopColor: alarmCount>0?'var(--alarm-critical)':'var(--op-border-subtle)'}}>
+          <div className="kpi" style={{borderTopColor: alarmCount>0?'var(--alarm-critical)':'var(--op-border-subtle)',background:alarmCount>0?'rgba(217,64,64,0.06)':undefined}}>
             <div className="kpi-lbl"><Icon name="alert" size={12}/>Sin Cambio</div>
             <div className="kpi-val" style={{color:alarmCount>0?'var(--alarm-critical)':'var(--op-text-1)'}}>{alarmCount>0?'▲ ':''}{alarmCount}</div>
             <div className="kpi-sub">poleas nunca cambiadas</div>
