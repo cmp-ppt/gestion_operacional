@@ -53,7 +53,7 @@
   .tabs-row { display:flex; gap:0; overflow-x:auto; padding:0 20px; }
   .tabs-row.feeder-row { background:rgba(82,160,108,0.06); border-top:1px solid var(--op-border-subtle); }
   .tabs-row-label { font-size:var(--fs-caps); font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--op-text-3); display:flex; align-items:center; padding:0 10px 0 20px; white-space:nowrap; flex-shrink:0; border-right:1px solid var(--op-border-subtle); }
-  .tab { padding:9px 14px; border:none; background:transparent; color:var(--op-text-3); font-family:var(--font-sans); font-weight:500; font-size:var(--fs-nav); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all .12s; display:flex; align-items:center; gap:7px; }
+  .tab { padding:11px 18px; border:none; background:transparent; color:var(--op-text-3); font-family:var(--font-sans); font-weight:500; font-size:0.95rem; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all .12s; display:flex; align-items:center; gap:9px; }
   .tab:hover { color:var(--op-text-1); background:var(--op-surface-1); }
   .tab.active { color:#fff; border-bottom-color:var(--cmp-hematita-500); font-weight:600; }
   .tab-alarm { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
@@ -64,11 +64,11 @@
 
   /* KPI strip */
   .kpi-strip { display:grid; grid-template-columns:repeat(4,1fr) 1.6fr; gap:10px; margin-bottom:14px; }
-  .kpi { background:var(--op-surface-1); border:1px solid var(--op-border-subtle); border-top:3px solid var(--op-border-subtle); border-radius:var(--radius-2); padding:10px 14px; }
-  .kpi-lbl { font-size:0.714rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--op-text-3); margin-bottom:5px; }
-  .kpi-val { font-size:1.7rem; font-weight:300; font-variant-numeric:tabular-nums; line-height:1; color:var(--op-text-1); display:flex; align-items:baseline; gap:4px; }
+  .kpi { background:var(--op-surface-1); border:1px solid var(--op-border-subtle); border-top:3px solid var(--op-border-subtle); border-radius:var(--radius-2); padding:7px 14px 8px; }
+  .kpi-lbl { font-size:0.714rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--op-text-3); margin-bottom:3px; }
+  .kpi-val { font-size:1.45rem; font-weight:300; font-variant-numeric:tabular-nums; line-height:1; color:var(--op-text-1); display:flex; align-items:baseline; gap:4px; }
   .kpi-unit { font-size:0.786rem; color:var(--op-text-3); }
-  .kpi-sub { font-size:0.714rem; color:var(--op-text-3); margin-top:5px; }
+  .kpi-sub { font-size:0.714rem; color:var(--op-text-3); margin-top:3px; }
 
   /* Prominent TBO panel */
   .kpi-tbo { background:linear-gradient(105deg, var(--cmp-blue-900), var(--op-surface-2)); border:1px solid var(--cmp-blue-600); border-left:4px solid var(--cmp-blue-400); border-radius:var(--radius-2); padding:10px 14px; display:flex; flex-direction:column; }
@@ -291,9 +291,9 @@ const PROC_META = {
 function ProcGlyph({ proc, size=15, color }){
   const col = color || PROC_META[proc]?.dot || 'currentColor';
   const P = {
-    MAGNETITA: <><circle cx="12" cy="10" r="7.5"/><circle cx="12" cy="10" r="2"/><path d="M12 2.5v3M12 14.5v3M4.5 10h3M14.5 10h3M6.7 4.7l2.1 2.1M15.2 12.2l2.1 2.1M17.3 4.7l-2.1 2.1M8.8 12.2l-2.1 2.1"/><circle cx="9.5" cy="20.5" r="0.9" fill="currentColor" stroke="none"/><circle cx="12" cy="21.5" r="0.9" fill="currentColor" stroke="none"/><circle cx="14.5" cy="20.5" r="0.9" fill="currentColor" stroke="none"/></>,
+    MAGNETITA: <><circle cx="12" cy="11" r="7"/><circle cx="12" cy="11" r="2"/><path d="M12 4v2.6M12 15.4V18M5 11h2.6M15.4 11H18M6.9 5.9l1.9 1.9M15.2 14.2l1.9 1.9M17.1 5.9l-1.9 1.9M8.8 14.2l-1.9 1.9"/><circle cx="10" cy="20" r="0.8" fill="currentColor" stroke="none"/><circle cx="12.4" cy="20.6" r="0.8" fill="currentColor" stroke="none"/><circle cx="14.6" cy="20" r="0.8" fill="currentColor" stroke="none"/></>,
     EMBARQUE:  <><path d="M4 14l1.4 4.3a2 2 0 001.9 1.4h9.4a2 2 0 001.9-1.4L20 14"/><path d="M6 14V9h12v5"/><path d="M12 3v6"/></>,
-    CNN:       <><path d="M2.5 6h10v5H2.5z"/><path d="M8 6q2 -1.6 4 0"/><path d="M12.5 8h3l2.6 3h-5.6z"/><path d="M1.5 11h19"/><circle cx="7" cy="14.6" r="2.7"/><circle cx="16.2" cy="14.6" r="2.4"/><circle cx="7" cy="14.6" r="0.6" fill="currentColor" stroke="none"/><circle cx="16.2" cy="14.6" r="0.6" fill="currentColor" stroke="none"/></>,
+    CNN:       <><path d="M2.5 6.5h10v5.5H2.5z"/><path d="M7.5 6.5q2 -1.7 4 0"/><path d="M12.5 8.5h3.2l2.8 3.5h-6z"/><path d="M1.5 12h19"/><circle cx="7" cy="15.8" r="2.9"/><circle cx="16.3" cy="15.8" r="2.5"/><circle cx="7" cy="15.8" r="0.6" fill="currentColor" stroke="none"/><circle cx="16.3" cy="15.8" r="0.6" fill="currentColor" stroke="none"/></>,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={col} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>{P[proc]||<circle cx="12" cy="12" r="5" fill={col} stroke="none"/>}</svg>;
 }
@@ -2044,7 +2044,7 @@ function App({ user, onLogout }){
                 const worst=beltEstadoPeor(b.tag);
                 return (
                   <button key={b.tag} className={`tab${tag===b.tag?' active':''}`} onClick={()=>setTag(b.tag)}>
-                    <Icon name="conveyor" size={14} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
+                    <Icon name="conveyor" size={18} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
                     {b.nombre}{beltBadge(b.tag)}
                   </button>
                 );
@@ -2057,7 +2057,7 @@ function App({ user, onLogout }){
                 return (
                   <button key={b.tag} className={`tab${tag===b.tag?' active':''}`} onClick={()=>setTag(b.tag)}
                     style={tag===b.tag?{}:{color:'var(--status-running-light)'}}>
-                    <Icon name="conveyor" size={14} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
+                    <Icon name="conveyor" size={18} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
                     {b.nombre}{beltBadge(b.tag)}
                   </button>
                 );
@@ -2069,7 +2069,7 @@ function App({ user, onLogout }){
             const worst=beltEstadoPeor(b.tag);
             return (
               <button key={b.tag} className={`tab${tag===b.tag?' active':''}`} onClick={()=>setTag(b.tag)}>
-                <Icon name="conveyor" size={14} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
+                <Icon name="conveyor" size={18} style={{color:worst?'var(--alarm-critical)':'var(--status-running)'}}/>
                 {b.nombre}{beltBadge(b.tag)}
               </button>
             );
