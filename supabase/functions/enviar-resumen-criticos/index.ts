@@ -216,7 +216,7 @@ Deno.serve(async (req) => {
 
   const seenKeys = new Set<string>();
   const deduped = (data ?? []).filter((h: any) => {
-    const k = [canonProc(h.tag, h.proc), h.tag, h.npolin ?? "", normTxt(h.ident), normTxt(h.pos), normTxt(h.cond), h.crit, (h.aviso ?? "").toString().trim()].join("|");
+    const k = [h.tag, h.npolin ?? "", normTxt(h.ident), normTxt(h.pos), normTxt(h.cond), h.crit, (h.aviso ?? "").toString().trim()].join("|");
     if (seenKeys.has(k)) return false;
     seenKeys.add(k);
     return true;
@@ -499,7 +499,7 @@ Deno.serve(async (req) => {
 
   <!-- FOOTER -->
   <tr><td style="background:#071840;padding:10px 24px;border-radius:0 0 6px 6px">
-    <div style="font-size:10px;color:#5566aa">Generado automáticamente · CMP Dashboard — Gestión de Correas, Poleas y Polines · conteo v2 (dedup)</div>
+    <div style="font-size:10px;color:#5566aa">Generado automáticamente · CMP Dashboard — Gestión de Correas, Poleas y Polines · conteo v3 (dedup)</div>
   </td></tr>
 
 </table>
@@ -519,7 +519,7 @@ Deno.serve(async (req) => {
       html:    htmlBody,
     });
     return new Response(
-      JSON.stringify({ ok: true, messageId: info.messageId, total, build: "dedup-v2" }),
+      JSON.stringify({ ok: true, messageId: info.messageId, total, build: "dedup-v3" }),
       { status: 200, headers: { "Content-Type": "application/json", ...CORS_HEADERS } }
     );
   } catch (e: any) {
