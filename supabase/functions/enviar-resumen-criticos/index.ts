@@ -499,7 +499,7 @@ Deno.serve(async (req) => {
 
   <!-- FOOTER -->
   <tr><td style="background:#071840;padding:10px 24px;border-radius:0 0 6px 6px">
-    <div style="font-size:10px;color:#5566aa">Generado automáticamente · CMP Dashboard — Gestión de Correas, Poleas y Polines · conteo v3 (dedup)</div>
+    <div style="font-size:10px;color:#5566aa">Generado automáticamente · CMP Dashboard — Gestión de Correas, Poleas y Polines</div>
   </td></tr>
 
 </table>
@@ -519,7 +519,7 @@ Deno.serve(async (req) => {
       html:    htmlBody,
     });
     return new Response(
-      JSON.stringify({ ok: true, messageId: info.messageId, total, build: "dedup-v3" }),
+      JSON.stringify({ ok: true, messageId: info.messageId, total }),
       { status: 200, headers: { "Content-Type": "application/json", ...CORS_HEADERS } }
     );
   } catch (e: any) {
