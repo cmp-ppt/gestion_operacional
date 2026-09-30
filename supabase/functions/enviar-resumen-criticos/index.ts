@@ -21,6 +21,10 @@ const PROC_DOT: Record<string, string> = {
 };
 // Normaliza el campo proc a clave en minúsculas
 function normProc(p: string): string { return (p ?? "").toLowerCase().trim(); }
+function normTxt(v: any): string { return (v ?? "").toString().trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim(); }
+// Mapa TAG -> proceso canonico (misma fuente que la app). Determina el proceso por la correa, no por como venga rotulado el hallazgo.
+const TAG_PROC: Record<string, string> = {"FS23210":"magnetita","FS23220":"magnetita","FS23230":"magnetita","FS23240":"magnetita","FS23235":"magnetita","FS24210":"magnetita","FS24211":"cnn","FS24212":"cnn","FS24213":"cnn","FS24214":"cnn","FS24235":"cnn","FS24215":"cnn","FS23445":"embarque","FS23450":"embarque","FS23460":"embarque","FS23470":"embarque","FS23485-B":"embarque","FS24416":"embarque","FS24417":"embarque","FS25420":"embarque","FS25421":"embarque","FS23455-2":"embarque","FS23455-3":"embarque","FS23455-5":"embarque","FS24491-2":"embarque","FS24491-3":"embarque","FS24491-4":"embarque","FS24491-1":"embarque","FS24491-6":"embarque","FS23455-1":"embarque","FS23455-4":"embarque","FS24491-5":"embarque","FS25455-1":"embarque","FS25455-3":"embarque","FS25455-2":"embarque"};
+function canonProc(tag: string, proc: any): string { return TAG_PROC[tag] ?? normProc(proc); }
 const CRIT_META: Record<string, { col: string; bg: string; icon: string }> = {
   "Muy Alta": { col: "#b91c1c", bg: "#fff0f0", icon: "🔴" },
   "Alta":     { col: "#c2410c", bg: "#fff6f0", icon: "🟠" },
@@ -212,7 +216,7 @@ Deno.serve(async (req) => {
   const normT = (v: any) => (v ?? "").toString().trim().toLowerCase();
   const seenKeys = new Set<string>();
   const hallazgos = (data ?? []).filter((h: any) => {
-    const k = [normProc(h.proc), h.tag, normT(h.npolin), normT(h.ident), normT(h.pos), normT(h.cond), h.crit, normT(h.aviso)].join("|");
+    const k = [canonProc(h.tag, h.proc), h.tag, h.npolin ?? "", normTxt(h.ident), normTxt(h.pos), normTxt(h.cond), h.crit, (h.aviso ?? "").toString().trim()].join("|");
     if (seenKeys.has(k)) return false;
     seenKeys.add(k);
     return true;
@@ -224,7 +228,7 @@ Deno.serve(async (req) => {
   const muyAlta = hallazgos.filter((h: any) => h.crit === "Muy Alta").length;
   const alta    = hallazgos.filter((h: any) => h.crit === "Alta").length;
   const media   = hallazgos.filter((h: any) => h.crit === "Media").length;
-  const porProc = (p: string) => hallazgos.filter((h: any) => normProc(h.proc) === p).length;
+  const porProc = (p: string) => hallazgos.filter((h: any) => canonProc(h.tag, h.proc) === p).length;
 
   // Snapshot diario: guarda el estado de hoy y lee el histórico (tabla criticos_historial).
   // Envuelto en try/catch: si la tabla no existe aún, el correo sale igual sin la tendencia.
@@ -303,7 +307,7 @@ Deno.serve(async (req) => {
   // ── Mapa de calor por correa ────────────────────────────────
   const byTag: Record<string, any> = {};
   hallazgos.forEach((h: any) => {
-    const procKey = normProc(h.proc);
+    const procKey = canonProc(h.tag, h.proc);
     const k = procKey + "|" + h.tag;
     if (!byTag[k]) byTag[k] = { proc: procKey, tag: h.tag, nombre: tagNombre(h.tag, procKey), counts: {}, ultima: "" };
     byTag[k].counts[h.crit] = (byTag[k].counts[h.crit] ?? 0) + 1;
@@ -316,8 +320,8 @@ Deno.serve(async (req) => {
 
   // ── KPI cards por proceso ───────────────────────────────────
   const kpiCards = Object.entries(PROC_LABEL).map(([proc, label]) => {
-    const n      = hallazgos.filter((h: any) => normProc(h.proc) === proc).length;
-    const correas = new Set(hallazgos.filter((h: any) => normProc(h.proc) === proc).map((h: any) => h.tag)).size;
+    const n      = hallazgos.filter((h: any) => canonProc(h.tag, h.proc) === proc).length;
+    const correas = new Set(hallazgos.filter((h: any) => canonProc(h.tag, h.proc) === proc).map((h: any) => h.tag)).size;
     const dot    = PROC_DOT[proc] ?? "#888";
     return `<td width="25%" style="padding:0 0 0 8px">
       <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#fff;border:1px solid #dde2ec;border-top:3px solid ${dot}">
@@ -363,9 +367,9 @@ Deno.serve(async (req) => {
   );
   const detalleRows = hallazgosOrdenados.map((h: any) => {
     const cm = CRIT_META[h.crit] ?? { col: "#888", bg: "#f5f5f5", icon: "○" };
-    const pk = normProc(h.proc);
+    const pk = canonProc(h.tag, h.proc);
     return `<tr style="background:${cm.bg}">
-      <td style="padding:4px 4px 4px 8px;font-weight:600;font-size:11px;border-left:3px solid ${cm.col}">${tagNombre(h.tag, normProc(h.proc))}</td>
+      <td style="padding:4px 4px 4px 8px;font-weight:600;font-size:11px;border-left:3px solid ${cm.col}">${tagNombre(h.tag, canonProc(h.tag, h.proc))}</td>
       <td style="padding:4px 8px;font-size:10px;color:#555">${h.tag}</td>
       <td style="padding:4px 8px;font-size:10px;color:#666">
         <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${PROC_DOT[pk] ?? "#888"};margin-right:3px;vertical-align:middle"></span>
