@@ -202,25 +202,26 @@ Deno.serve(async (req) => {
 
   // ── Datos ───────────────────────────────────────────────────
   const sb = createClient(SB_URL, SB_KEY);
+  // Traemos TODOS los registros (no solo activos) ordenados por created_at desc.
+  // Igual que la app: primero se deduplica por identidad conservando la fila MAS
+  // RECIENTE, y recien despues se filtran los activos. Asi, un hallazgo cuya fila
+  // mas reciente quedo "No Activo" (cerrado en una inspeccion) NO se cuenta, aunque
+  // exista una fila duplicada antigua que siga "Activo".
   const { data, error } = await sb
     .from("polines_hallazgos")
     .select("*")
-    .eq("est_cond", "Activo")
-    .in("crit", ["Muy Alta", "Alta", "Media"])
-    .order("fecha", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (error) return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: CORS_HEADERS });
 
-  // ── Deduplicación (misma lógica que la app: identidad SIN fecha, conserva el más reciente) ──
-  // Los datos vienen ordenados por fecha desc, así que el primero de cada clave es el más reciente.
-  const normT = (v: any) => (v ?? "").toString().trim().toLowerCase();
   const seenKeys = new Set<string>();
-  const hallazgos = (data ?? []).filter((h: any) => {
+  const deduped = (data ?? []).filter((h: any) => {
     const k = [canonProc(h.tag, h.proc), h.tag, h.npolin ?? "", normTxt(h.ident), normTxt(h.pos), normTxt(h.cond), h.crit, (h.aviso ?? "").toString().trim()].join("|");
     if (seenKeys.has(k)) return false;
     seenKeys.add(k);
     return true;
   });
+  const hallazgos = deduped.filter((h: any) => h.est_cond === "Activo" && ["Muy Alta", "Alta", "Media"].includes(h.crit));
   const total     = hallazgos.length;
   const hoy       = new Date().toLocaleDateString("es-CL", { dateStyle: "long" });
 
