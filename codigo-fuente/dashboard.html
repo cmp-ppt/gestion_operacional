@@ -470,6 +470,81 @@ function Diagram({ correa, poleas }){
   );
 }
 
+/* ── Diagrama de correa para CORREO (SVG autocontenido) ────────────────
+   El correo no soporta variables CSS ni fuentes web, así que se usan colores
+   hex explícitos y Arial. Resalta en dorado las poleas cambiadas en el mes
+   (highlightSet = Set con los N° de polea cambiados en el período). */
+function buildBeltSVGEmail(correa, poleas, highlightSet){
+  const diag = correa.diag || [];
+  const { pos, R, s } = layoutDiag(diag);
+  const codeF=+(R*0.6).toFixed(1), metaF=+(R*0.56).toFixed(1), dateF=+(R*0.52).toFixed(1);
+  const showFull = s>=78;
+  const pts = pos.map(p=>p.x+','+p.y).join(' ');
+  let top=1e9, bot=-1e9;
+  pos.forEach(pt=>{ const dY=pt.y-R-R*0.5, diaY=pt.y+R+R*0.95+codeF+3.5; top=Math.min(top, dY-dateF-2); bot=Math.max(bot, diaY+metaF-1); });
+  if(!pos.length){ top=0; bot=120; }
+  const GREEN='#16a34a', RED='#b91c1c', GOLD='#D97C30', LINE='#9aa4b2', WFILL='#ffffff', CODE='#475569', META='#9aa4b2';
+  const esc=v=>String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let body='';
+  pos.forEach((pt,idx)=>{
+    const p=poleas[idx]; if(!p) return;
+    const col = p.fecha ? GREEN : RED;
+    const hot = highlightSet && highlightSet.has(p.num);
+    const drive=/^MOTRIZ/i.test(p.tipo||'');
+    const cx=pt.x, cy=pt.y;
+    const dateY=cy-R-R*0.5, codeY=cy+R+R*0.95, diasY=codeY+codeF+3.5;
+    const dtxt = p.fecha ? (showFull ? p.fecha : (p.fecha.split('-')[1]+'-'+(p.fecha.split('-')[2]||'').slice(2))) : '';
+    if(hot) body += `<circle cx="${cx}" cy="${cy}" r="${(R+5).toFixed(1)}" fill="none" stroke="${GOLD}" stroke-width="2.4"/>`;
+    if(drive) body += `<circle cx="${cx}" cy="${cy}" r="${(R+2.6).toFixed(1)}" fill="none" stroke="${col}" stroke-width="1.5" opacity="0.55"/>`;
+    body += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="${WFILL}" stroke="${col}" stroke-width="2.6"/>`;
+    for(let i=0;i<6;i++){ const a=(Math.PI*2*i/6)-Math.PI/2; body+=`<circle cx="${(cx+(R-4)*Math.cos(a)).toFixed(1)}" cy="${(cy+(R-4)*Math.sin(a)).toFixed(1)}" r="1.3" fill="${col}" opacity="0.6"/>`; }
+    body += `<text x="${cx}" y="${(cy+R*0.34).toFixed(1)}" text-anchor="middle" font-size="${(R*0.8).toFixed(1)}" font-weight="700" fill="${col}" font-family="Arial">${p.num}</text>`;
+    if(p.fecha) body += `<text x="${cx}" y="${dateY.toFixed(1)}" text-anchor="middle" font-size="${dateF}" font-weight="700" fill="${hot?GOLD:col}" font-family="Arial">${esc(dtxt)}</text>`;
+    body += `<text x="${cx}" y="${codeY.toFixed(1)}" text-anchor="middle" font-size="${codeF}" font-weight="700" fill="${CODE}" font-family="Arial">${esc(codeTipo(p.tipo))}</text>`;
+    if(p._dias!=null) body += `<text x="${cx}" y="${diasY.toFixed(1)}" text-anchor="middle" font-size="${metaF}" fill="${META}" font-family="Arial">${esc(fmtDiasCorto(p._dias))}</text>`;
+  });
+  const h=(bot-top);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 ${top.toFixed(1)} 620 ${h.toFixed(1)}" width="620" height="${Math.round(h)}">`
+    + `<rect x="0" y="${top.toFixed(1)}" width="620" height="${h.toFixed(1)}" fill="#ffffff"/>`
+    + `<polyline points="${pts}" fill="none" stroke="${LINE}" stroke-width="${(R*0.5).toFixed(1)}" stroke-linejoin="round" stroke-linecap="round" opacity="0.5"/>`
+    + body + `</svg>`;
+  return { svg, w:620, h };
+}
+/* Rasteriza un SVG a PNG (dataURL) vía canvas. @2x para nitidez en el correo. */
+function svgToPng(svg, w, h){
+  return new Promise((resolve,reject)=>{
+    const scale=2, img=new Image();
+    img.onload=()=>{ try{
+      const c=document.createElement('canvas'); c.width=Math.round(w*scale); c.height=Math.round(h*scale);
+      const ctx=c.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+      ctx.drawImage(img,0,0,c.width,c.height); resolve(c.toDataURL('image/png'));
+    }catch(e){ reject(e); } };
+    img.onerror=()=>reject(new Error('No se pudo rasterizar el diagrama'));
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  });
+}
+/* Poleas cambiadas en un mes (1-12) y año dados, POR FECHA DE CAMBIO DE POLEA. */
+function cambiosDelMes(mes, anio, overrides){
+  const out=[];
+  Object.keys(window.POLEAS_DATA||{}).forEach(proc=>{
+    const pd=window.POLEAS_DATA[proc]||{};
+    Object.keys(pd).forEach(tag=>{
+      const c=pd[tag]; if(!c||!c.poleas) return;
+      c.poleas.forEach(p0=>{
+        const p=mergePolea(proc,tag,p0,overrides);
+        const dt=parseDMY(p.fecha);
+        if(dt && (dt.getMonth()+1)===mes && dt.getFullYear()===anio){
+          out.push({ proc, tag, nombre:cleanNombre(c.nombre), num:p.num, tipo:p.tipo, fecha:p.fecha,
+                     aviso:p.aviso||null, orden:p.orden||null, desc:p.desc||null, _dt:dt });
+        }
+      });
+    });
+  });
+  out.sort((a,b)=> a._dt-b._dt || a.nombre.localeCompare(b.nombre,'es',{numeric:true}) || a.num-b.num);
+  return out;
+}
+const MESES_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
 /* ── Pulley card ──────────────────────────────────────── */
 function PoleaCard({ p, onEdit, canEdit }){
   const e = EST[p._estado];
@@ -1559,9 +1634,126 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
   );
 }
 
+/* ── Resumen mensual de cambios de poleas (cierre de mes) ──────────────
+   Opción B: el usuario elige el mes/año y envía desde la app. Se arma la lista
+   de poleas cambiadas (POR FECHA DE CAMBIO) y, por cada correa afectada, su
+   diagrama rasterizado a PNG con la polea cambiada resaltada. */
+function ResumenMensualModal({ overrides, onClose }){
+  const now=new Date();
+  const [mes,setMes]=useState(now.getMonth()+1);
+  const [anio,setAnio]=useState(now.getFullYear());
+  const [sending,setSending]=useState(false);
+  const [msg,setMsg]=useState(null);
+  const cambios=useMemo(()=>cambiosDelMes(mes,anio,overrides),[mes,anio,overrides]);
+  const correas=useMemo(()=>{ const s=new Set(); cambios.forEach(c=>s.add(c.tag)); return [...s]; },[cambios]);
+  const avisos=useMemo(()=>{ const s=new Set(); cambios.forEach(c=>{ if(c.aviso) s.add(String(c.aviso).trim()); }); return s.size; },[cambios]);
+  const periodo=`${MESES_ES[mes-1]} ${anio}`;
+  const anios=[]; for(let y=now.getFullYear()+1;y>=2020;y--) anios.push(y);
+
+  async function enviar(){
+    if(cambios.length===0) return;
+    setSending(true); setMsg(null);
+    try{
+      // Diagramas por correa afectada (orden de primera aparición)
+      const diagramas=[];
+      for(const tag of correas){
+        const c0=cambios.find(x=>x.tag===tag); const proc=c0.proc;
+        const c=(window.POLEAS_DATA[proc]||{})[tag];
+        if(!c||!c.poleas) continue;
+        const merged=c.poleas.map(p=>mergePolea(proc,tag,p,overrides));
+        const hot=new Set(cambios.filter(x=>x.tag===tag).map(x=>x.num));
+        const { svg,w,h }=buildBeltSVGEmail(c, merged, hot);
+        const dataUrl=await svgToPng(svg,w,h);
+        diagramas.push({ tag, proc, nombre:cleanNombre(c.nombre), png:dataUrl.split(',')[1] });
+      }
+      const payload={ report:'poleas-mensual', periodo, mes, anio,
+        kpis:{ cambios:cambios.length, correas:correas.length, avisos },
+        cambios:cambios.map(c=>({ nombre:c.nombre, proc:PROC_META[c.proc]?.label||c.proc, num:c.num, tipo:c.tipo, fecha:c.fecha, aviso:c.aviso, orden:c.orden, desc:c.desc })),
+        diagramas };
+      const resp=await fetch(`${SUPABASE_URL}/functions/v1/enviar-resumen-criticos`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON_KEY}`},body:JSON.stringify(payload)});
+      const d=await resp.json();
+      if(d.ok){ setMsg({ok:true,text:`✅ Correo enviado (${cambios.length} cambio${cambios.length!==1?'s':''} en ${correas.length} correa${correas.length!==1?'s':''})`}); }
+      else { setMsg({ok:false,text:'Error: '+(d.error||'desconocido')}); }
+    }catch(e){ setMsg({ok:false,text:'Error: '+(e.message||e)}); }
+    setSending(false);
+  }
+
+  return (
+    <div className="modal-bg" onMouseDown={(e)=>{ if(e.target===e.currentTarget && !sending) onClose(); }}>
+      <div className="modal wide">
+        <div className="modal-hdr">
+          <div>
+            <div className="modal-title">Resumen mensual de cambios de poleas</div>
+            <div className="modal-sub">Envía por correo los cambios del mes (por fecha de cambio) con el diagrama de cada correa</div>
+          </div>
+          <button className="modal-close" onClick={onClose}>×</button>
+        </div>
+        <div className="modal-body">
+          <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap',marginBottom:14}}>
+            <span style={{fontSize:'0.85rem',fontWeight:600,color:'var(--op-text-2)'}}>Período:</span>
+            <select value={mes} onChange={e=>setMes(+e.target.value)}
+              style={{padding:'5px 10px',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',fontSize:'0.85rem'}}>
+              {MESES_ES.map((m,i)=><option key={i} value={i+1}>{m}</option>)}
+            </select>
+            <select value={anio} onChange={e=>setAnio(+e.target.value)}
+              style={{padding:'5px 10px',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',fontSize:'0.85rem'}}>
+              {anios.map(y=><option key={y} value={y}>{y}</option>)}
+            </select>
+            <span style={{marginLeft:'auto',fontSize:'0.8rem',color:'var(--op-text-3)'}}>
+              <b style={{color:'var(--op-text-1)'}}>{cambios.length}</b> cambio{cambios.length!==1?'s':''} · <b style={{color:'var(--op-text-1)'}}>{correas.length}</b> correa{correas.length!==1?'s':''} · <b style={{color:'var(--op-text-1)'}}>{avisos}</b> aviso{avisos!==1?'s':''} SAP
+            </span>
+          </div>
+
+          {cambios.length===0 ? (
+            <div style={{padding:'28px 12px',textAlign:'center',color:'var(--op-text-3)',fontSize:'0.9rem',background:'var(--op-surface-1)',borderRadius:'var(--radius-2)',border:'1px dashed var(--op-border-strong)'}}>
+              No hay poleas con cambio registrado en {periodo}.
+            </div>
+          ) : (
+            <div style={{maxHeight:320,overflow:'auto',border:'1px solid var(--op-border-subtle)',borderRadius:'var(--radius-2)'}}>
+              <table style={{width:'100%',borderCollapse:'collapse',fontSize:'0.8rem'}}>
+                <thead><tr style={{background:'var(--op-surface-2)',position:'sticky',top:0}}>
+                  {['Correa','Polea','Tipo','Fecha','Aviso SAP','Orden'].map(h=>
+                    <th key={h} style={{textAlign:'left',padding:'6px 10px',color:'var(--op-text-3)',fontSize:'0.7rem',textTransform:'uppercase',letterSpacing:'.04em'}}>{h}</th>)}
+                </tr></thead>
+                <tbody>
+                  {cambios.map((c,i)=>(
+                    <tr key={i} style={{background:i%2?'var(--op-surface-0)':'var(--op-surface-1)'}}>
+                      <td style={{padding:'5px 10px',fontWeight:600,color:'var(--op-text-1)'}}>{c.nombre}</td>
+                      <td style={{padding:'5px 10px',textAlign:'center',fontFamily:'monospace'}}>{c.num}</td>
+                      <td style={{padding:'5px 10px',color:'var(--op-text-2)'}}>{abbrevTipo(c.tipo)}</td>
+                      <td style={{padding:'5px 10px',fontFamily:'monospace',color:'var(--status-running-light)'}}>{c.fecha}</td>
+                      <td style={{padding:'5px 10px',fontFamily:'monospace',color:'var(--op-text-2)'}}>{c.aviso||'—'}</td>
+                      <td style={{padding:'5px 10px',fontFamily:'monospace',color:'var(--op-text-3)'}}>{c.orden||'—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {msg && <div style={{marginTop:12,padding:'8px 12px',borderRadius:'var(--radius-1)',fontSize:'0.85rem',
+            background:msg.ok?'var(--status-running-bg)':'var(--alarm-critical-bg)',
+            color:msg.ok?'var(--status-running-light)':'var(--alarm-critical-light)',
+            border:`1px solid ${msg.ok?'var(--status-running-border)':'var(--alarm-critical-border)'}`}}>{msg.text}</div>}
+
+          <div style={{display:'flex',justifyContent:'flex-end',gap:8,marginTop:16}}>
+            <button onClick={onClose} disabled={sending}
+              style={{padding:'7px 16px',fontSize:'0.85rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',cursor:'pointer'}}>Cerrar</button>
+            <button onClick={enviar} disabled={sending||cambios.length===0}
+              style={{padding:'7px 16px',fontSize:'0.85rem',fontWeight:600,borderRadius:'var(--radius-1)',background:'var(--cmp-blue-700)',border:'1px solid var(--cmp-blue-500)',color:'#fff',cursor:(sending||cambios.length===0)?'not-allowed':'pointer',opacity:(sending||cambios.length===0)?0.6:1}}>
+              {sending?'Enviando…':'📧 Enviar resumen'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Estado Poleas & TBO (resumen exportable) ──────────── */
 function EstadoPoleasView({ overrides, tboOverrides }){
   const [filtroProc,setFiltroProc]=useState('todos');
+  const [mensual,setMensual]=useState(false);
   const [exporting,setExporting]=useState(false);
 
   const rows=useMemo(()=>{
@@ -1691,10 +1883,15 @@ function EstadoPoleasView({ overrides, tboOverrides }){
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--cmp-blue-500)',color:'var(--cmp-blue-200)',cursor:sorted.length===0?'not-allowed':'pointer',opacity:sorted.length===0?0.5:1}}>
           📧 Enviar correo
         </button>
+        <button onClick={()=>setMensual(true)}
+          style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--cmp-blue-500)',color:'var(--cmp-blue-200)',cursor:'pointer'}}>
+          📅 Resumen mensual
+        </button>
         <span style={{marginLeft:'auto',fontSize:'0.714rem',color:'var(--op-text-3)'}}>
           {totCorreas} correa{totCorreas!==1?'s':''}{filtroProc!=='todos'?` · ${PROC_META[filtroProc]?.label}`:''}
         </span>
       </div>
+      {mensual && <ResumenMensualModal overrides={overrides} onClose={()=>setMensual(false)}/>}
 
       {/* KPI strip */}
       <div className="kpi-strip" style={{flexShrink:0,gridTemplateColumns:'repeat(7,1fr)'}}>
