@@ -180,6 +180,102 @@ async function enviarResumenPoleas(body: any): Promise<Response> {
   }
 }
 
+// ── Resumen mensual de cambios de poleas ─────────────────────
+// Recibe desde la app la lista de cambios del mes (por fecha de cambio) y los
+// diagramas (PNG en base64) de cada correa afectada; arma y envía el correo.
+async function enviarResumenMensual(body: any): Promise<Response> {
+  const periodo = String(body?.periodo ?? "");
+  const cambios: any[] = Array.isArray(body?.cambios) ? body.cambios : [];
+  const diagramas: any[] = Array.isArray(body?.diagramas) ? body.diagramas : [];
+  const k = body?.kpis ?? {};
+  const esc = (v: any) => (v == null || v === "" ? "—" : String(v)).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const kCambios = k.cambios ?? cambios.length;
+  const kCorreas = k.correas ?? new Set(cambios.map((c) => c.nombre)).size;
+  const kAvisos  = k.avisos  ?? 0;
+
+  const kpi = (label: string, value: any, color: string) => `<td style="padding:0 4px;vertical-align:top">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#fff;border:1px solid #dde2ec;border-top:3px solid ${color}">
+      <tr><td style="padding:9px 12px">
+        <div style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">${label}</div>
+        <div style="font-size:22px;font-weight:700;color:#111;line-height:1">${value}</div>
+      </td></tr></table></td>`;
+  const kpisHtml = [
+    kpi("Poleas cambiadas", kCambios, "#16a34a"),
+    kpi("Correas afectadas", kCorreas, "#3B82F6"),
+    kpi("Avisos SAP", kAvisos, "#D97C30"),
+  ].join("");
+
+  const thBase = "padding:6px 9px;font-size:9px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:#888;text-align:left";
+  const rowsHtml = cambios.map((c, i) => {
+    const bg = i % 2 === 0 ? "#f8f8f8" : "#fff";
+    return `<tr style="background:${bg}">
+      <td style="padding:5px 9px;font-weight:600;font-size:11px;border-left:3px solid #16a34a">${esc(c.nombre)}</td>
+      <td style="padding:5px 9px;text-align:center;font-size:11px;font-family:monospace">${esc(c.num)}</td>
+      <td style="padding:5px 9px;font-size:10px;color:#555">${esc(c.tipo)}</td>
+      <td style="padding:5px 9px;text-align:center;font-size:10px;font-family:monospace;color:#15803d">${esc(c.fecha)}</td>
+      <td style="padding:5px 9px;font-size:10px;font-family:monospace;color:#555">${esc(c.aviso)}</td>
+      <td style="padding:5px 9px;font-size:10px;font-family:monospace;color:#777">${esc(c.orden)}</td>
+      <td style="padding:5px 9px;font-size:10px;color:#666">${esc(c.desc)}</td>
+    </tr>`;
+  }).join("");
+
+  const attachments = diagramas.map((d, i) => ({
+    filename: `${(d.tag || "correa")}.png`, content: d.png, encoding: "base64", cid: `diag${i}`,
+  }));
+  const diagHtml = diagramas.map((d, i) => `
+    <tr><td style="padding:14px 15px 4px">
+      <div style="font-size:12px;font-weight:700;color:#071840;margin-bottom:6px">${esc(d.nombre)} <span style="color:#999;font-weight:400">· ${esc(d.tag)}</span></div>
+      <img src="cid:diag${i}" width="620" style="width:100%;max-width:620px;border:1px solid #e3e7ef;border-radius:4px" alt="Diagrama ${esc(d.nombre)}"/>
+    </td></tr>`).join("");
+
+  const htmlBody = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
+<body style="font-family:Arial,sans-serif;background:#eef0f5;margin:0;padding:20px 0">
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:0 8px">
+<table width="820" cellpadding="0" cellspacing="0" style="max-width:820px;width:100%">
+  <tr><td style="background:#071840;padding:16px 22px;border-radius:6px 6px 0 0">
+    <div style="color:#fff;font-size:16px;font-weight:700">Resumen mensual de cambios de poleas</div>
+    <div style="color:#A9C6EB;font-size:11px;margin-top:2px">${esc(periodo)} · por fecha de cambio de polea</div>
+  </td></tr>
+  <tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:14px 15px">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>${kpisHtml}</tr></table>
+  </td></tr>
+  ${cambios.length ? `<tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:0 0 6px">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+      <thead><tr style="background:#f0f2f7">
+        <th style="${thBase}">Correa</th><th style="${thBase};text-align:center">Polea</th><th style="${thBase}">Tipo</th>
+        <th style="${thBase};text-align:center">Fecha</th><th style="${thBase}">Aviso SAP</th><th style="${thBase}">Orden</th><th style="${thBase}">Descripción</th>
+      </tr></thead><tbody>${rowsHtml}</tbody>
+    </table>
+  </td></tr>
+  <tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:4px 0 8px">
+    <div style="font-size:11px;font-weight:700;color:#071840;text-transform:uppercase;letter-spacing:.05em;padding:8px 15px 0">Diagramas de correas afectadas</div>
+    <table width="100%" cellpadding="0" cellspacing="0">${diagHtml}</table>
+  </td></tr>` : `<tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:22px 15px;text-align:center;color:#888;font-size:12px">Sin cambios de poleas registrados en ${esc(periodo)}.</td></tr>`}
+  <tr><td style="padding:10px 4px;color:#9aa0aa;font-size:10px;text-align:center">
+    Generado automáticamente · CMP Dashboard — Gestión de Correas, Poleas y Polines
+  </td></tr>
+</table>
+</td></tr></table>
+</body></html>`;
+
+  try {
+    const transporter = nodemailer.createTransport({ service: "gmail", auth: { user: GMAIL_USER, pass: GMAIL_PASS } });
+    const info = await transporter.sendMail({
+      from:    `"CMP Dashboard" <${GMAIL_USER}>`,
+      to:      DESTINATARIOS.join(", "),
+      subject: `[CMP] Resumen mensual de cambios de poleas — ${periodo}`,
+      html:    htmlBody,
+      attachments,
+    });
+    return new Response(JSON.stringify({ ok: true, messageId: info.messageId, cambios: kCambios }),
+      { status: 200, headers: { "Content-Type": "application/json", ...CORS_HEADERS } });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ ok: false, error: e.message }),
+      { status: 500, headers: { "Content-Type": "application/json", ...CORS_HEADERS } });
+  }
+}
+
 Deno.serve(async (req) => {
   // ── CORS preflight ──────────────────────────────────────────
   if (req.method === "OPTIONS") {
@@ -198,6 +294,10 @@ Deno.serve(async (req) => {
   try { reqBody = await req.json(); } catch { /* sin cuerpo */ }
   if (reqBody && reqBody.report === "poleas") {
     return await enviarResumenPoleas(reqBody);
+  }
+  // ── Modo "poleas-mensual": cambios de poleas del mes + diagramas (PNG) ──
+  if (reqBody && reqBody.report === "poleas-mensual") {
+    return await enviarResumenMensual(reqBody);
   }
 
   // ── Datos ───────────────────────────────────────────────────
