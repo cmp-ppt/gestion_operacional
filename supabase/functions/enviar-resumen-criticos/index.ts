@@ -196,9 +196,9 @@ async function enviarResumenMensual(body: any): Promise<Response> {
 
   const kpi = (label: string, value: any, color: string) => `<td style="padding:0 4px;vertical-align:top">
     <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#fff;border:1px solid #dde2ec;border-top:3px solid ${color}">
-      <tr><td style="padding:9px 12px">
-        <div style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px">${label}</div>
-        <div style="font-size:22px;font-weight:700;color:#111;line-height:1">${value}</div>
+      <tr><td style="padding:11px 14px">
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px">${label}</div>
+        <div style="font-size:30px;font-weight:700;color:#111;line-height:1">${value}</div>
       </td></tr></table></td>`;
   const kpisHtml = [
     kpi("Poleas cambiadas", kCambios, "#16a34a"),
@@ -206,17 +206,17 @@ async function enviarResumenMensual(body: any): Promise<Response> {
     kpi("Avisos SAP", kAvisos, "#D97C30"),
   ].join("");
 
-  const thBase = "padding:6px 9px;font-size:9px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:#888;text-align:left";
+  const thBase = "padding:7px 10px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:#888;text-align:left";
   const rowsHtml = cambios.map((c, i) => {
     const bg = i % 2 === 0 ? "#f8f8f8" : "#fff";
     return `<tr style="background:${bg}">
-      <td style="padding:5px 9px;font-weight:600;font-size:11px;border-left:3px solid #16a34a">${esc(c.nombre)}</td>
-      <td style="padding:5px 9px;text-align:center;font-size:11px;font-family:monospace">${esc(c.num)}</td>
-      <td style="padding:5px 9px;font-size:10px;color:#555">${esc(c.tipo)}</td>
-      <td style="padding:5px 9px;text-align:center;font-size:10px;font-family:monospace;color:#15803d">${esc(c.fecha)}</td>
-      <td style="padding:5px 9px;font-size:10px;font-family:monospace;color:#555">${esc(c.aviso)}</td>
-      <td style="padding:5px 9px;font-size:10px;font-family:monospace;color:#777">${esc(c.orden)}</td>
-      <td style="padding:5px 9px;font-size:10px;color:#666">${esc(c.desc)}</td>
+      <td style="padding:7px 10px;font-weight:600;font-size:14px;border-left:3px solid #16a34a">${esc(c.nombre)}</td>
+      <td style="padding:7px 10px;text-align:center;font-size:14px;font-family:monospace">${esc(c.num)}</td>
+      <td style="padding:7px 10px;font-size:13px;color:#555">${esc(c.tipo)}</td>
+      <td style="padding:7px 10px;text-align:center;font-size:13px;font-family:monospace;color:#15803d">${esc(c.fecha)}</td>
+      <td style="padding:7px 10px;font-size:13px;font-family:monospace;color:#555">${esc(c.aviso)}</td>
+      <td style="padding:7px 10px;font-size:13px;font-family:monospace;color:#777">${esc(c.orden)}</td>
+      <td style="padding:7px 10px;font-size:13px;color:#666">${esc(c.desc)}</td>
     </tr>`;
   }).join("");
 
@@ -224,18 +224,18 @@ async function enviarResumenMensual(body: any): Promise<Response> {
     filename: `${(d.tag || "correa")}.png`, content: d.png, encoding: "base64", cid: `diag${i}`,
   }));
   const diagHtml = diagramas.map((d, i) => `
-    <tr><td style="padding:14px 15px 4px">
-      <div style="font-size:12px;font-weight:700;color:#071840;margin-bottom:6px">${esc(d.nombre)} <span style="color:#999;font-weight:400">· ${esc(d.tag)}</span></div>
-      <img src="cid:diag${i}" width="620" style="width:100%;max-width:620px;border:1px solid #e3e7ef;border-radius:4px" alt="Diagrama ${esc(d.nombre)}"/>
+    <tr><td style="padding:16px 15px 6px">
+      <div style="font-size:15px;font-weight:700;color:#071840;margin-bottom:8px">${esc(d.nombre)} <span style="color:#999;font-weight:400">· ${esc(d.tag)}</span></div>
+      <img src="cid:diag${i}" width="860" style="width:100%;max-width:860px;border:1px solid #e3e7ef;border-radius:4px" alt="Diagrama ${esc(d.nombre)}"/>
     </td></tr>`).join("");
 
   const htmlBody = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="font-family:Arial,sans-serif;background:#eef0f5;margin:0;padding:20px 0">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:0 8px">
-<table width="820" cellpadding="0" cellspacing="0" style="max-width:820px;width:100%">
-  <tr><td style="background:#071840;padding:16px 22px;border-radius:6px 6px 0 0">
-    <div style="color:#fff;font-size:16px;font-weight:700">Resumen mensual de cambios de poleas</div>
-    <div style="color:#A9C6EB;font-size:11px;margin-top:2px">${esc(periodo)} · por fecha de cambio de polea</div>
+<table width="900" cellpadding="0" cellspacing="0" style="max-width:900px;width:100%">
+  <tr><td style="background:#071840;padding:18px 24px;border-radius:6px 6px 0 0">
+    <div style="color:#fff;font-size:20px;font-weight:700">Resumen mensual de cambios de poleas</div>
+    <div style="color:#A9C6EB;font-size:13px;margin-top:3px">${esc(periodo)} · por fecha de cambio de polea</div>
   </td></tr>
   <tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:14px 15px">
     <table width="100%" cellpadding="0" cellspacing="0"><tr>${kpisHtml}</tr></table>
@@ -249,7 +249,7 @@ async function enviarResumenMensual(body: any): Promise<Response> {
     </table>
   </td></tr>
   <tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:4px 0 8px">
-    <div style="font-size:11px;font-weight:700;color:#071840;text-transform:uppercase;letter-spacing:.05em;padding:8px 15px 0">Diagramas de correas afectadas</div>
+    <div style="font-size:13px;font-weight:700;color:#071840;text-transform:uppercase;letter-spacing:.05em;padding:10px 15px 0">Diagramas de correas afectadas</div>
     <table width="100%" cellpadding="0" cellspacing="0">${diagHtml}</table>
   </td></tr>` : `<tr><td style="background:#fff;border:1px solid #dde2ec;border-top:none;padding:22px 15px;text-align:center;color:#888;font-size:12px">Sin cambios de poleas registrados en ${esc(periodo)}.</td></tr>`}
   <tr><td style="padding:10px 4px;color:#9aa0aa;font-size:10px;text-align:center">
