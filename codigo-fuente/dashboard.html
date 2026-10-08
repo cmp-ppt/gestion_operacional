@@ -1490,7 +1490,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',cursor:filtered.length===0?'not-allowed':'pointer',opacity:filtered.length===0?0.5:1}}>
           🖨 PDF / Imprimir
         </button>
-        <button onClick={async()=>{
+        {canEdit && <button onClick={async()=>{
           try{
             const r=await fetch(`${SUPABASE_URL}/functions/v1/enviar-resumen-criticos`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON_KEY}`},body:JSON.stringify({test:false})});
             const d=await r.json();
@@ -1499,7 +1499,7 @@ function ResumenCriticosView({ polAdds, canEdit, onImport, onAddPolin }){
         }} disabled={filtered.length===0}
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',cursor:filtered.length===0?'not-allowed':'pointer',opacity:filtered.length===0?0.5:1}}>
           📧 Enviar correo
-        </button>
+        </button>}
         <span style={{marginLeft:'auto',order:9,fontSize:'0.714rem',color:'var(--op-text-3)'}}>
           {filtered.length} hallazgo{filtered.length!==1?'s':''}{filtroProc!=='todos'?` · ${PROC_META[filtroProc]?.label}`:''}
         </span>
@@ -1752,7 +1752,7 @@ function ResumenMensualModal({ overrides, onClose }){
 }
 
 /* ── Estado Poleas & TBO (resumen exportable) ──────────── */
-function EstadoPoleasView({ overrides, tboOverrides }){
+function EstadoPoleasView({ overrides, tboOverrides, canEdit }){
   const [filtroProc,setFiltroProc]=useState('todos');
   const [mensual,setMensual]=useState(false);
   const [exporting,setExporting]=useState(false);
@@ -1873,7 +1873,7 @@ function EstadoPoleasView({ overrides, tboOverrides }){
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--op-border-strong)',color:'var(--op-text-1)',cursor:sorted.length===0?'not-allowed':'pointer',opacity:sorted.length===0?0.5:1}}>
           🖨 PDF / Imprimir
         </button>
-        <button onClick={async()=>{
+        {canEdit && <button onClick={async()=>{
           try{
             const payload={ report:'poleas', proc:filtroProc==='todos'?'Todos los procesos':(PROC_META[filtroProc]?.label||filtroProc), kpis:{ correas:totCorreas, feeders:totFeeders, poleas:totPoleas, conCambio:totConCambio, sinCambio:totSinCambio, tboVenc:tboVencidos, tboProx:tboProximos }, rows:sorted.map(r=>({ nombre:r.nombre, proc:PROC_META[r.proc]?.label||r.proc, total:r.total, sinCambio:r.sinCambio, conCambio:r.conCambio, tboEff:r.tboEff||null, tboDias:r.tboDias, tboVenc:r.tboVenc, ultima:r.ultima||null })) };
             const resp=await fetch(`${SUPABASE_URL}/functions/v1/enviar-resumen-criticos`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON_KEY}`},body:JSON.stringify(payload)});
@@ -1883,11 +1883,11 @@ function EstadoPoleasView({ overrides, tboOverrides }){
         }} disabled={sorted.length===0}
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--cmp-blue-500)',color:'var(--cmp-blue-200)',cursor:sorted.length===0?'not-allowed':'pointer',opacity:sorted.length===0?0.5:1}}>
           📧 Enviar correo
-        </button>
-        <button onClick={()=>setMensual(true)}
+        </button>}
+        {canEdit && <button onClick={()=>setMensual(true)}
           style={{display:'inline-flex',alignItems:'center',gap:5,padding:'4px 13px',fontSize:'0.786rem',borderRadius:'var(--radius-1)',background:'var(--op-surface-2)',border:'1px solid var(--cmp-blue-500)',color:'var(--cmp-blue-200)',cursor:'pointer'}}>
           📅 Resumen mensual
-        </button>
+        </button>}
         <span style={{marginLeft:'auto',fontSize:'0.714rem',color:'var(--op-text-3)'}}>
           {totCorreas} correa{totCorreas!==1?'s':''}{filtroProc!=='todos'?` · ${PROC_META[filtroProc]?.label}`:''}
         </span>
@@ -2236,7 +2236,7 @@ function App({ user, onLogout }){
       {showResumen
         ? <ResumenCriticosView polAdds={polAdds} canEdit={canEdit} onImport={()=>setImporting(true)} onAddPolin={()=>setPolAdding(true)}/>
         : showPoleas
-        ? <EstadoPoleasView overrides={overrides} tboOverrides={tboOverrides}/>
+        ? <EstadoPoleasView overrides={overrides} tboOverrides={tboOverrides} canEdit={canEdit}/>
         : <><div className={`tabs${feeders.length>0?' has-feeders':''}`}>
         {feeders.length>0 ? (
           <>
